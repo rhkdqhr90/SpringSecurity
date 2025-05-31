@@ -22,6 +22,16 @@
 1. 스프링 기능을 사용하긴 위한 (DI,AOP) 필터
 2. 서블릿필터 기능을 수행하는 동시에 스프링 의존성 주입 및 관리 기능과 연동되도록 설계된 필터
 3. SrpingSecurityFilterChain 이름으로 생성된 빈을 ApplicationContext에서 찾아 요청을 위임
+4. FilterChainProxy 가 URL 정보를 기준으로 적절한 SecurityFilterChain을 선택하여 필터 호출  (순서대로 호출)
+   
+ ✅ 스프링 시큐리티와 DelegatingFilterProxy의 연결
+
+🔷 동작 순서
+
+1️⃣ 톰캣이 요청을 받으면 → 등록된 FilterChain 순서대로 doFilter() 호출
+2️⃣ DelegatingFilterProxy의 doFilter()가 실행됨
+3️⃣ 내부적으로 ApplicationContext에서 “springSecurityFilterChain” 이름의 빈을 찾아서
+4️⃣ 그 빈의 doFilter()를 대신 실행
    
 
    
