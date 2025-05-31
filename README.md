@@ -29,8 +29,14 @@
 🔷 동작 순서
 
 1️⃣ 톰캣이 요청을 받으면 → 등록된 FilterChain 순서대로 doFilter() 호출
+
+
 2️⃣ DelegatingFilterProxy의 doFilter()가 실행됨
+
+
 3️⃣ 내부적으로 ApplicationContext에서 “springSecurityFilterChain” 이름의 빈을 찾아서
+
+
 4️⃣ 그 빈의 doFilter()를 대신 실행
    
 
