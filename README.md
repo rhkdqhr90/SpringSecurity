@@ -1,8 +1,18 @@
 #-1일차-
 
 ---
-### 기본 SrpingSecurity filter 생성 순서
-1.AutoConfiguration -> 2.SecurityBuilder,3.SecurityConfiguration ->4.HttpSecurityConfiguration->5.httpSecurity build(HttpSecurityConfiguration.java)->5.SecurityFilterChain ->6.WebSecurityConfiguration-> 7.WebSecurity -> FilterChainProxy
+### 🔷 1️⃣ 기본 순서
+
+1. **AutoConfiguration**  
+2. **SecurityBuilder**  
+3. **SecurityConfiguration**  
+4. **HttpSecurityConfiguration**  
+5. `HttpSecurity` 생성 및 빌드 (`HttpSecurity.build()` in `HttpSecurityConfiguration.java`)  
+6. **SecurityFilterChain** 생성  
+7. **WebSecurityConfiguration**  
+8. **WebSecurity**  
+9. **FilterChainProxy** 생성  
+
 
 1. 자동 설정에 의해서 SecurityBuilder 생성
 2.interface웹보안을 구성하는 빈객체와 설정 클래스를 생성하는 역활 대표적으론 HttpSecurity, WebSecurity가 있다. SecurityConfiguer를 참조한다. 
