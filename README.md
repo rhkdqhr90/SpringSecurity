@@ -64,7 +64,7 @@
 3️⃣ 내부적으로 ApplicationContext에서 “springSecurityFilterChain” 이름의 빈을 찾아서
 
 
-4️⃣ 그 빈의 doFilter()를 대신 실행
+4️⃣ 그 빈의 doFilter()를 대신 실행(FilterChainProxy)
    
 
    
