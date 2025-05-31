@@ -26,14 +26,30 @@
 9. SecurityFilterChains(List)에 모든 SecurityFilterChain 저장
 
 ---
-### Filter서블릿 필터는 웹 어플리케이션에서 클라이언트의 요청과 서버의 응답을 가공,검사하는데 사용되는 구성요서 WAS(서블릿컨테이너) 에서 실행 되고 종료
-1.Filter init(초기화),doFilter(요청정,다음 필터로 전달, 요청후 처리),destory(필터제거)
+## 🔷 Filter란?
 
-### DelegationFilterProxy 스프링에서 사용되는 서블릿 필터, 서블릿컨테이너와 스프링 어플리케이션 컨테스트간의 연결고리 하는 필터
-1. 스프링 기능을 사용하긴 위한 (DI,AOP) 필터
-2. 서블릿필터 기능을 수행하는 동시에 스프링 의존성 주입 및 관리 기능과 연동되도록 설계된 필터
-3. SrpingSecurityFilterChain 이름으로 생성된 빈을 ApplicationContext에서 찾아 요청을 위임
-4. FilterChainProxy 가 URL 정보를 기준으로 적절한 SecurityFilterChain을 선택하여 필터 호출  (순서대로 호출)
+- **서블릿 Filter**는 웹 애플리케이션에서 클라이언트 요청과 서버 응답을 가공·검사하는 역할을 합니다.  
+- **WAS(서블릿 컨테이너)**에서 실행 및 종료됩니다.  
+- 기본 생명주기 메서드:
+  - `init()`: 초기화  
+  - `doFilter()`: 요청 전/후 처리 및 다음 필터로 전달  
+  - `destroy()`: 필터 제거  
+
+---
+
+## 🔷 DelegatingFilterProxy란?
+
+- **서블릿 필터 역할 + 스프링의 의존성 주입, AOP 기능과 연동**되도록 설계된 스프링 필터입니다.  
+- 서블릿 컨테이너와 스프링 ApplicationContext를 연결해주는 **중간 다리 역할**을 합니다.
+
+### 🔎 동작 방식
+
+1️⃣ DelegatingFilterProxy는 톰캣(서블릿 컨테이너)에 Filter로 등록됩니다.  
+2️⃣ 요청마다 `doFilter()`가 호출되면, 내부적으로 ApplicationContext에서 `"springSecurityFilterChain"` 이름의 빈을 찾아서 대신 실행합니다.  
+3️⃣ `springSecurityFilterChain` 빈은 **FilterChainProxy**이며,  
+4️⃣ FilterChainProxy가 URL을 기준으로 적절한 **SecurityFilterChain**을 선택해 순서대로 필터를 실행합니다.
+
+✅ 따라서, **DelegatingFilterProxy는 톰캣 Filter로 요청을 받고, 실제로는 스프링의 FilterChainProxy에게 요청을 위임하는 “브릿지” 역할**을 합니다.
    
  ✅ 스프링 시큐리티와 DelegatingFilterProxy의 연결
 
