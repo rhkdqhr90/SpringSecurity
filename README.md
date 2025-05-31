@@ -13,7 +13,8 @@
 8. **WebSecurity**  
 9. **FilterChainProxy** 생성  
 
-
+---
+### 🔷 2️⃣ 단계별 설명
 1. 자동 설정에 의해서 SecurityBuilder 생성
 2.interface웹보안을 구성하는 빈객체와 설정 클래스를 생성하는 역활 대표적으론 HttpSecurity, WebSecurity가 있다. SecurityConfiguer를 참조한다. 
 3. interface 설정클래스 생성 및 초기화 작업진행(init(B uilder), Configure(B builder) -> SrpingBootWebSecurityConfiguration.java SecurityFilterChain에서 .build
