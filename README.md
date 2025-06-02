@@ -66,7 +66,7 @@
 
 4️⃣ 그 빈의 doFilter()를 대신 실행(FilterChainProxy)
 
-#-2일차
+# -2일차
 
 ---
 ### 인증 프로세스 
@@ -89,10 +89,10 @@
 5.ApplicationEventPyublisher 인증 성공 이벤트 게시
 6.AuthenticationSuccessHandler 인증 성공 핸들러 호출  (리다이렉트,메시지 등)
 
-### AuthenticationManager 인증 실패시
-1.SecurityContextHolder 삭제
-2.RemeberMeServices (RememberMeServices.logiinFail 호출 -> Remeber-me 쿠키/정보 초기화
-3.AuthenticationFailureHanlder 호출 (실패 페이지 이동)
+### 인증 실패
+- `SecurityContextHolder`의 인증 정보 제거  
+- `RememberMeServices.loginFail()`로 Remember-Me 정보 초기화  
+- `AuthenticationFailureHandler`로 실패 페이지 이동 처리  
 
 ---
 ### 인증 상태 RememberMeAuthenticationFilter : 1.SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
@@ -109,6 +109,31 @@
  RememberMeAuthenticationFilter  -> RememberMeServices.autologin() -> RememberMeAuthenticationToken(userDetails + Authorities) -> AuthenticationManager
  -> RmemberMeAuthenticationToken -> SecurituyContext -> SecurityContextRepository -> ApplicationEventPublisher
 
- 
+ ---
+ ### LogOut : DefaultLogoutPageGenerationFilter를 통해 로그아웃 페이지를 Get/logout URL을 기본적으 제공 
+ 1. 로그아웃 실행은 기본적으로 POST/logout dmfhaks rksmdgksk CSRF 기능을 비성활 할 경우 혹은 RequestMatcher 를 사용할 경우 GET,PUT,DELETE 모두 가능
+ 2. 기본적으로 logOutFilter를 제공하지만 스프링MVC 에서 커스텀 하게 생성 가능함, **로그인 페이지가 커스텀 하게 생성될 경우 로그아웃 기능도 커스텀하게 구현해야 한다**
+
+### 프로세스
+LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
+
+---
+
+### 요청 캐시: RequestCache, SavedRequest
+
+1.RequestCache(Interface): 인증 절차 문제로 리다이렉트 된 후에 이전 요청을 담고 있는 SavedRequest객체를 쿠키 혹은 세션에 저장 하고 다시 필요시 가져와 실행 하는 캐시 메카니즘 HttpSessionRequestCache (구현체)
+2.SavedRequest(Interface) : 로그인과 같은 인증 절차 후 사용자를 인증 이전의 원래페이지로 안내하여 이전 요청과 관련된 여러 정보 저장 DefaultSavedREquest(구현체)
+
+### RquestCacheAwareFilter : 이전에 저장했던 웹 요청을 다시 불러오는 역활, SavedRequest가 현재 Request와 일치하면 이 용청을 필터 체인의 doFilter로 저장, 없으면 원래 Request 진행
+
+### 프로세스
+1️⃣ 인증이 필요한 URL로 사용자가 접근
+2️⃣ ExceptionTranslationFilter가 요청을 가로채서 “인증 필요”를 확인
+3️⃣ RequestCache.saveRequest()가 실행되며 현재 요청 데이터를 SavedRequest로 생성
+4️⃣ 생성된 SavedRequest(DefaultSavedRequest)를 세션에 저장
+
+➡️ 로그인 성공 후에는 RequestCache.getRequest()로 SavedRequest를 꺼내서,
+사용자를 원래 요청 URL로 리다이렉트할지 결정!
+RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest == currentRequest -> chain.doFilter(savedRequest,reponse)
  
    
