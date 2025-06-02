@@ -72,14 +72,28 @@
 ### 인증 프로세스 
 #### UsernamePasswordAuthenticationFilter : AbstractAuthenticationProcessingFilter -> AttemptAuthentication() -> UsernamePasswordAuthenticationFilter, CustomAuthenticationFilter
 1.AbstractAuthenticationProcessingFilter 확장한 클래스로 HttpServletRequest에서 제출된 사용자 이름과 비밀번호로 부터 인증을 수행한다. 
+
+
 2. 인증 프로스세그 초기회 될떄 로그인 페이지와 로그아웃 페이지 생성을 위한 Default login,logoutFilter가 초기화 된다
-3. RequestMatcher가 클라인트 요청정보가 매칭 되는지 확인 후 false : chaind.doFilter(다음필터로) true: UsernamePasswordAuthenticationToken -> AuthenticationManager(Id,Password) DB랑 비교
+
+3. 
+4. RequestMatcher가 클라인트 요청정보가 매칭 되는지 확인 후 false : chaind.doFilter(다음필터로) true: UsernamePasswordAuthenticationToken -> AuthenticationManager(Id,Password) DB랑 비교
+
+5. 
 
 ### AuthenticationManager 인증 성공시
 1.UsernamePAsswordAuthenticationToken `UserDetails`와 `Authorities`를 채움.
+
+
 2.SeesionAuthenticationStrategy 새로운 로그인을 알리고 세션 관련 작업 수행
+
+
 3.SecurityContextHolder Authentication 을 SecurityContext에 설정 세션에 SecurityContex저장(인증 상태 유지)
+
+
 4.RememberMeServies  Id,Password 기억하기 기능 
+
+
 
 •	RememberMeAuthenticationFilter: 요청이 들어올 때 쿠키가 있으면 인증 복원 시도
 
@@ -87,7 +101,11 @@
 
 
 5.ApplicationEventPyublisher 인증 성공 이벤트 게시
+
+
 6.AuthenticationSuccessHandler 인증 성공 핸들러 호출  (리다이렉트,메시지 등)
+
+
 
 ### 인증 실패
 - `SecurityContextHolder`의 인증 정보 제거  
@@ -97,6 +115,8 @@
 ---
 ### 인증 상태 RememberMeAuthenticationFilter : 1.SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
 1.SecurityContextHolder
+
+
 1️⃣ 인증(Authentication) 저장소
 	•	로그인 성공 시, Authentication 객체를 생성하여 SecurityContext에 넣습니다.
 	•	예: UsernamePasswordAuthenticationToken 등의 객체.
@@ -111,8 +131,12 @@
 
  ---
  ### LogOut : DefaultLogoutPageGenerationFilter를 통해 로그아웃 페이지를 Get/logout URL을 기본적으 제공 
+
+ 
  1. 로그아웃 실행은 기본적으로 POST/logout dmfhaks rksmdgksk CSRF 기능을 비성활 할 경우 혹은 RequestMatcher 를 사용할 경우 GET,PUT,DELETE 모두 가능
- 2. 기본적으로 logOutFilter를 제공하지만 스프링MVC 에서 커스텀 하게 생성 가능함, **로그인 페이지가 커스텀 하게 생성될 경우 로그아웃 기능도 커스텀하게 구현해야 한다**
+
+ 2. 
+ 3. 기본적으로 logOutFilter를 제공하지만 스프링MVC 에서 커스텀 하게 생성 가능함, **로그인 페이지가 커스텀 하게 생성될 경우 로그아웃 기능도 커스텀하게 구현해야 한다**
 
 ### 프로세스
 LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
@@ -122,6 +146,8 @@ LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
 ### 요청 캐시: RequestCache, SavedRequest
 
 1.RequestCache(Interface): 인증 절차 문제로 리다이렉트 된 후에 이전 요청을 담고 있는 SavedRequest객체를 쿠키 혹은 세션에 저장 하고 다시 필요시 가져와 실행 하는 캐시 메카니즘 HttpSessionRequestCache (구현체)
+
+
 2.SavedRequest(Interface) : 로그인과 같은 인증 절차 후 사용자를 인증 이전의 원래페이지로 안내하여 이전 요청과 관련된 여러 정보 저장 DefaultSavedREquest(구현체)
 
 ### RquestCacheAwareFilter : 이전에 저장했던 웹 요청을 다시 불러오는 역활, SavedRequest가 현재 Request와 일치하면 이 용청을 필터 체인의 doFilter로 저장, 없으면 원래 Request 진행
