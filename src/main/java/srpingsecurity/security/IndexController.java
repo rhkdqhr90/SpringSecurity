@@ -48,4 +48,10 @@ public class IndexController {
 
     }
 
+    @GetMapping("/logoutSuccess")
+    public String logoutSuccess() {
+        return "로그아웃 성공";
+
+    }
+
 }
