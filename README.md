@@ -94,4 +94,21 @@
 2.RemeberMeServices (RememberMeServices.logiinFail 호출 -> Remeber-me 쿠키/정보 초기화
 3.AuthenticationFailureHanlder 호출 (실패 페이지 이동)
 
+---
+### 인증 상태 RememberMeAuthenticationFilter : 1.SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
+1.SecurityContextHolder
+1️⃣ 인증(Authentication) 저장소
+	•	로그인 성공 시, Authentication 객체를 생성하여 SecurityContext에 넣습니다.
+	•	예: UsernamePasswordAuthenticationToken 등의 객체.
+
+2️⃣ 스레드 안전성 보장
+	•	기본적으로 ThreadLocal 전략을 사용하여 요청 처리 스레드별로 보안 정보를 안전하게 유지합니다.
+
+ #### 프로세스
+ ##### Authentication == null :null 아니면 chain.doFilter
+ RememberMeAuthenticationFilter  -> RememberMeServices.autologin() -> RememberMeAuthenticationToken(userDetails + Authorities) -> AuthenticationManager
+ -> RmemberMeAuthenticationToken -> SecurituyContext -> SecurityContextRepository -> ApplicationEventPublisher
+
+ 
+ 
    
