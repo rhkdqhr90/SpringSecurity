@@ -4,7 +4,7 @@
 - [Filter란](#filter란)
 - [DelegatingFilterProxy란](#delegatingfilterproxy란)
 - [동작 순서](#동작-순서)
-- [2일차 인증 프로세스](#2일차-인증-프로세스)
+- [인증 프로세스](인증-프로세스)
 - [인증 상태 RememberMeAuthenticationFilter](#인증-상태-remembermeauthenticationfilter)
 - [로그아웃 처리](#로그아웃-처리)
 - [요청 캐시 RequestCache SavedRequest](#요청-캐시-requestcache-savedrequest)
@@ -76,7 +76,6 @@
 
 
 4️⃣ 그 빈의 doFilter()를 대신 실행(FilterChainProxy)
-
 
 
 ---
@@ -170,7 +169,7 @@ LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
 사용자를 원래 요청 URL로 리다이렉트할지 결정!
 RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest == currentRequest -> chain.doFilter(savedRequest,reponse)
 
-## 3일차
+
 ---
 
 ## 인증 아키텍처
