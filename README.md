@@ -301,16 +301,16 @@ SecurityContextPersistenceFilter 와 다른점이다
 ---
 **SecurityContext 생성, 저장, 삭제**
 1. 익명 사용자
->• SecurityContextRepository 를 사용하여 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder 에 저장 후 다음 필터로 전달
->• AnonymousAuthenticationFilter 에서 AnonymousAuthenticationToken 객체를 SecurityContext 에 저장
+>•SecurityContextRepository 를 사용하여 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder 에 저장 후 다음 필터로 전달
+>•AnonymousAuthenticationFilter 에서 AnonymousAuthenticationToken 객체를 SecurityContext 에 저장
 2. 인증 요청
->• SecurityContextRepository 를 사용하여 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder 에 저장 후 다음 필터로 전달
->• UsernamePasswordAuthenticationFilter 에서 인증 성공 후 SecurityContext 에 UsernamePasswordAuthentication 객체를 SecurityContext 에 저장
->• SecurityContextRepository 를 사용하여 HttpSession 에 SecurityContext 를 저장
+>•SecurityContextRepository 를 사용하여 새로운 SecurityContext 객체를 생성하여 SecurityContextHolder 에 저장 후 다음 필터로 전달
+>•UsernamePasswordAuthenticationFilter 에서 인증 성공 후 SecurityContext 에 UsernamePasswordAuthentication 객체를 SecurityContext 에 저장
+>•SecurityContextRepository 를 사용하여 HttpSession 에 SecurityContext 를 저장
 3. 인증 후 요청
->• SecurityContextRepository 를 사용하여 HttpSession 에서 SecurityContext 꺼내어 SecurityContextHolder 에서 저장 후 다음 필터로 전달>
->• SecurityContext 안에 Authentication 객체가 존재하면 계속 인증을 유지한다
+>•SecurityContextRepository 를 사용하여 HttpSession 에서 SecurityContext 꺼내어 SecurityContextHolder 에서 저장 후 다음 필터로 전달>
+>•SecurityContext 안에 Authentication 객체가 존재하면 계속 인증을 유지한다
 4. 클라이언트 응답 시 공통
->• SecurityContextHolder.clearContext() 로 컨텍스트를 삭제 한다 (스레드 풀의 스레드일 경우 반드시 필요)
+>•SecurityContextHolder.clearContext() 로 컨텍스트를 삭제 한다 (스레드 풀의 스레드일 경우 반드시 필요)
  
    
