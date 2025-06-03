@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,13 +27,19 @@ public class SecurityConfig2 {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder sharedObject = http.getSharedObject(AuthenticationManagerBuilder.class);
-        AuthenticationManager authenticationManager = sharedObject.getOrBuild();
+
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.authenticationProvider(new CustomAuthenticationProvider());
+        builder.authenticationProvider(new CustomAuthenticationProvider2());
+
             http.authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/").permitAll()
+//                            .requestMatchers("/").permitAll()
                             .anyRequest().authenticated())
-                            .authenticationManager(authenticationManager)
-                    .addFilterBefore(customAuthenticationFilter(http), UsernamePasswordAuthenticationFilter.class);
+                    .formLogin(Customizer.withDefaults());
+//                    .authenticationProvider(new CustomAuthenticationProvider())
+//                    .authenticationProvider(new CustomAuthenticationProvider2());
+
+
 
         return http.build();
     }

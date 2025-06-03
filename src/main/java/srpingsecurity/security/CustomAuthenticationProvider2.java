@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
-public class CustomAuthenticationProvider  implements AuthenticationProvider
+public class CustomAuthenticationProvider2 implements AuthenticationProvider
 {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
