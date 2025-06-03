@@ -4,7 +4,7 @@
 
 - [1️⃣ 초기화 및 구성 순서](#-1️⃣-초기화-기본-순서)
 - [2️⃣ 단계별 설명](#-2️⃣-단계별-설명)
-- [3️⃣ Filter와 DelegatingFilterProxy](#-3️⃣-filter와-delegatingfilterproxy)
+- [3️⃣ Filter와 DelegatingFilterProxy](#-3️⃣-filter-란-?)
 - [4️⃣ 인증 프로세스](#-4️⃣-인증-프로세스)
 - [5️⃣ RememberMeAuthenticationFilter와 인증 상태 관리](#-5️⃣-remembermeauthenticationfilter와-인증-상태-관리)
 - [6️⃣ 로그아웃 처리](#-6️⃣-로그아웃-처리)
