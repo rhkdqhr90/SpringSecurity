@@ -33,9 +33,9 @@
 9. SecurityFilterChains(List)에 모든 SecurityFilterChain 저장
 
 ---
-- **Filter란?**  
-  >서블릿 Filter는 웹 애플리케이션에서 클라이언트 요청과 서버 응답을 가공·검사하는 역할을 합니다.  
-  >WAS(서블릿 컨테이너)에서 실행 및 종료됩니다.  
+- **Filter란?**
+ >서블릿 Filter는 웹 애플리케이션에서 클라이언트 요청과 서버 응답을 가공·검사하는 역할을 합니다.  
+ >WAS(서블릿 컨테이너)에서 실행 및 종료됩니다.  
 - 기본 생명주기 메서드:
   - `init()`: 초기화  
   - `doFilter()`: 요청 전/후 처리 및 다음 필터로 전달  
@@ -74,25 +74,26 @@
 
 ---
 ## 인증 프로세스 
-#### UsernamePasswordAuthenticationFilter : AbstractAuthenticationProcessingFilter -> AttemptAuthentication() -> UsernamePasswordAuthenticationFilter, CustomAuthenticationFilter
-1.AbstractAuthenticationProcessingFilter 확장한 클래스로 HttpServletRequest에서 제출된 사용자 이름과 비밀번호로 부터 인증을 수행한다. 
+**UsernamePasswordAuthenticationFilter : AbstractAuthenticationProcessingFilter -> AttemptAuthentication() -> UsernamePasswordAuthenticationFilter, CustomAuthenticationFilter**
+>1.AbstractAuthenticationProcessingFilter 확장한 클래스로 HttpServletRequest에서 제출된 사용자 이름과 비밀번호로 부터 인증을 수행한다. 
 
-2. 인증 프로스세스 초기화 될떄 로그인 페이지와 로그아웃 페이지 생성을 위한 Default login,logoutFilter가 초기화 된다
+>2. 인증 프로스세스 초기화 될떄 로그인 페이지와 로그아웃 페이지 생성을 위한 Default login,logoutFilter가 초기화 된다
 
-3. RequestMatcher가 클라인트 요청정보가 매칭 되는지 확인 후 false : chaind.doFilter(다음필터로) true: UsernamePasswordAuthenticationToken -> AuthenticationManager(Id,Password) DB랑 비교
-
-
-### AuthenticationManager 인증 성공시
-1.UsernamePAsswordAuthenticationToken `UserDetails`와 `Authorities`를 채움.
+>3. RequestMatcher가 클라인트 요청정보가 매칭 되는지 확인 후 false : chaind.doFilter(다음필터로) true: UsernamePasswordAuthenticationToken -> AuthenticationManager(Id,Password) DB랑 비교
 
 
-2.SeesionAuthenticationStrategy 새로운 로그인을 알리고 세션 관련 작업 수행
+**AuthenticationManager** 인증 성공시
+
+>1.UsernamePAsswordAuthenticationToken `UserDetails`와 `Authorities`를 채움.
 
 
-3.SecurityContextHolder Authentication 을 SecurityContext에 설정 세션에 SecurityContex저장(인증 상태 유지)
+>2.SeesionAuthenticationStrategy 새로운 로그인을 알리고 세션 관련 작업 수행
 
 
-4.RememberMeServies  Id,Password 기억하기 기능 
+>3.SecurityContextHolder Authentication 을 SecurityContext에 설정 세션에 SecurityContex저장(인증 상태 유지)
+
+
+>4.RememberMeServies  Id,Password 기억하기 기능 
 
 
 
@@ -114,8 +115,8 @@
 - `AuthenticationFailureHandler`로 실패 페이지 이동 처리  
 
 ---
-## RememberMeAuthenticationFilter
-: 인증 상태 SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
+**RememberMeAuthenticationFilter**
+>인증 상태 SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
 1.SecurityContextHolder
 
 
@@ -127,7 +128,7 @@
 	•	기본적으로 ThreadLocal 전략을 사용하여 요청 처리 스레드별로 보안 정보를 안전하게 유지합니다.
 
  #### 프로세스
- ##### Authentication == null :null 아니면 chain.doFilter
+ **Authentication == null :null 아니면 chain.doFilter**
  RememberMeAuthenticationFilter  -> RememberMeServices.autologin() -> RememberMeAuthenticationToken(userDetails + Authorities) -> AuthenticationManager
  -> RmemberMeAuthenticationToken -> SecurituyContext -> SecurityContextRepository -> ApplicationEventPublisher
 
