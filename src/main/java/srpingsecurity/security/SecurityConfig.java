@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 
 import java.io.IOException;
@@ -25,25 +28,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+        requestCache.setMatchingRequestParameterName("customParam=y");
             http.authorizeHttpRequests(auth -> auth
                             .requestMatchers("/logoutSuccess").permitAll()
                             .anyRequest().authenticated())
-                    .formLogin(Customizer.withDefaults())
-                    .logout(logout -> logout
-                            .logoutUrl("/logout")
-                            .logoutRequestMatcher((request -> request.getMethod().equals("POST") && request.getRequestURI().equals("/logout")))
-                            .logoutSuccessUrl("/logoutSuccess")
-                            .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/logoutSuccess"))
-                            .deleteCookies("JSESSIONID","remember-me")
-                            .invalidateHttpSession(true)
-                            .clearAuthentication(true)
-                            .addLogoutHandler((request, response, authentication) -> {
-                                request.getSession().invalidate();
-                                SecurityContextHolder.clearContext();
+                            .formLogin(Customizer.withDefaults());
 
-                            })
-                            .permitAll()
-                    );
+
+
+
+
+
+
 
         return http.build();
     }
