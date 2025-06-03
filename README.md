@@ -1,13 +1,14 @@
+## 📚 목차
 
-- [🔷 1️⃣초기화 기본 순서](#🔷-1️⃣초기화-기본-순서)
-- [🔷 2️⃣ 단계별 설명](#🔷-2️⃣-단계별-설명)
-- [🔷 Filter란?](#🔷-filter란)
-- [🔷 DelegatingFilterProxy란?](#🔷-delegatingfilterproxy란)
-- [🔷 동작 순서](#🔷-동작-순서)
-- [인증 프로세스](#-2일차-인증-프로세스)
+- [초기화 기본 순서](#초기화-기본-순서)
+- [단계별 설명](#단계별-설명)
+- [Filter란](#filter란)
+- [DelegatingFilterProxy란](#delegatingfilterproxy란)
+- [동작 순서](#동작-순서)
+- [인증 프로세스](#2일차-인증-프로세스)
 - [인증 상태 RememberMeAuthenticationFilter](#인증-상태-remembermeauthenticationfilter)
 - [LogOut](#logout)
-- [요청 캐시: RequestCache, SavedRequest](#요청-캐시-requestcache-savedrequest)
+- [요청 캐시 RequestCache SavedRequest](#요청-캐시-requestcache-savedrequest)
 - [인증 아키텍처](#3일차-인증-아키텍처)
 
 #-1일차-
