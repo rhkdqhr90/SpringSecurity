@@ -12,7 +12,7 @@
 #-1일차-
 
 ---
-### 🔷 1️⃣초기화 기본 순서
+### 초기화 기본 순서
 
 1. **AutoConfiguration**  
 2. **SecurityBuilder**  
@@ -25,7 +25,7 @@
 9. **FilterChainProxy** 생성  
 
 ---
-### 🔷 2️⃣ 단계별 설명
+### 단계별 설명
 1. 자동 설정에 의해서 SecurityBuilder 생성
 2.interface웹보안을 구성하는 빈객체와 설정 클래스를 생성하는 역활 대표적으론 HttpSecurity, WebSecurity가 있다. SecurityConfiguer를 참조한다. 
 3. interface 설정클래스 생성 및 초기화 작업진행(init(B uilder), Configure(B builder) -> SrpingBootWebSecurityConfiguration.java SecurityFilterChain에서 .build
@@ -37,7 +37,7 @@
 9. SecurityFilterChains(List)에 모든 SecurityFilterChain 저장
 
 ---
-### 🔷 Filter란?
+###  Filter란?
 
 - **서블릿 Filter**는 웹 애플리케이션에서 클라이언트 요청과 서버 응답을 가공·검사하는 역할을 합니다.  
 - **WAS(서블릿 컨테이너)**에서 실행 및 종료됩니다.  
@@ -48,7 +48,7 @@
 
 ---
 
-## 🔷 DelegatingFilterProxy란?
+##  DelegatingFilterProxy란?
 
 - **서블릿 필터 역할 + 스프링의 의존성 주입, AOP 기능과 연동**되도록 설계된 스프링 필터입니다.  
 - 서블릿 컨테이너와 스프링 ApplicationContext를 연결해주는 **중간 다리 역할**을 합니다.
@@ -77,7 +77,7 @@
 
 4️⃣ 그 빈의 doFilter()를 대신 실행(FilterChainProxy)
 
-# -2일차
+
 
 ---
 ### 인증 프로세스 
