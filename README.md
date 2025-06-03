@@ -1,12 +1,15 @@
 ## 목차
 
-1. [인증 컨텍스트](#인증-컨텍스트)
-   - [SecurityContext](#securitycontext)
-   - [SecurityContextHolder](#securitycontextholder)
-2. [AuthenticationManager](#authenticationmanager)
-3. [AuthenticationProvider](#authenticationprovider)
-4. [UserDetailsService](#userdetailsservice)
-5. [UserDetails](#userdetails)
+## 📚 목차
+
+- [1️⃣ 초기화 및 구성 순서](#-1️⃣-초기화-및-구성-순서)
+- [2️⃣ 단계별 설명](#-2️⃣-단계별-설명)
+- [3️⃣ Filter와 DelegatingFilterProxy](#-3️⃣-filter와-delegatingfilterproxy)
+- [4️⃣ 인증 프로세스](#-4️⃣-인증-프로세스)
+- [5️⃣ RememberMeAuthenticationFilter와 인증 상태 관리](#-5️⃣-remembermeauthenticationfilter와-인증-상태-관리)
+- [6️⃣ 로그아웃 처리](#-6️⃣-로그아웃-처리)
+- [7️⃣ 요청 캐시 (RequestCache)](#-7️⃣-요청-캐시-requestcache)
+- [8️⃣ 인증 아키텍처 및 구성요소](#-8️⃣-인증-아키텍처-및-구성요소)
 
 #-1일차-
 
