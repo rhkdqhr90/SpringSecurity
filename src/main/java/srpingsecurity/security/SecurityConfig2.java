@@ -28,39 +28,14 @@ public class SecurityConfig2 {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.authenticationProvider(new CustomAuthenticationProvider());
-        builder.authenticationProvider(new CustomAuthenticationProvider2());
-
             http.authorizeHttpRequests(auth -> auth
-//                            .requestMatchers("/").permitAll()
                             .anyRequest().authenticated())
-                    .formLogin(Customizer.withDefaults());
-//                    .authenticationProvider(new CustomAuthenticationProvider())
-//                    .authenticationProvider(new CustomAuthenticationProvider2());
-
-
-
+                            .formLogin(Customizer.withDefaults());
         return http.build();
-    }
-
-    public CustomAuthenticationFilter customAuthenticationFilter(HttpSecurity http) throws Exception {
-       List<AuthenticationProvider> list1 = List.of(new DaoAuthenticationProvider());
-        ProviderManager parent = new ProviderManager(list1);
-        List<AuthenticationProvider> list2 = List.of(new AnonymousAuthenticationProvider("key"),new CustomAuthenticationProvider());
-        ProviderManager providerManager = new ProviderManager(list1,parent);
-
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(http);
-        customAuthenticationFilter.setAuthenticationManager(providerManager);
-        return customAuthenticationFilter;
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password("{noop}1111")
-                .roles("USER")
-                .build();
-        return  new InMemoryUserDetailsManager(user);
+        return  new CustomUserDetailsService();
     }
 }
