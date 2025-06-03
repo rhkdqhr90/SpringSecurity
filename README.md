@@ -3,6 +3,7 @@
 - [단계별 설명](#단계별-설명)
 - [인증 프로세스](#인증-프로세스)
 - [인증 아키텍쳐](#인증-아키텍처)
+- [인증상태 연속성)(#인증-상태-영속성)
   
 
 
@@ -286,5 +287,9 @@ RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest
 
 ----
 ## 인증 상태 연송성
+
+**SecurityContextRepository**
+>- 스프링 시큐리티에서 사용자가 인증을 한 이후 요청에 대해 계속 사용자의 인증을 유지하기 위해 사용되는 클래스이다
+>- 인증 상태의 영속 메커니즘은 사용자가 인증을 하게 되면 해당 사용자의 인증 정보와 권한이 SecurityContext에 저장되고 HttpSession 을 통해 요청 간 영속이 이루어 지는 방식이다
  
    
