@@ -158,5 +158,62 @@ LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
 ➡️ 로그인 성공 후에는 RequestCache.getRequest()로 SavedRequest를 꺼내서,
 사용자를 원래 요청 URL로 리다이렉트할지 결정!
 RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest == currentRequest -> chain.doFilter(savedRequest,reponse)
+
+## 3일차
+--
+
+## 인증 아키텍처
+
+1. **인증 (Authentication)**  
+2. **보안 컨텍스트 (SecurityContext & SecurityContextHolder)**  
+3. **인증 관리자 (AuthenticationManager)**  
+4. **인증 제공자 (AuthenticationProvider)**  
+5. **사용자 상세 서비스 (UserDetailsService)**  
+6. **사용자 상세 정보 (UserDetails)**  
+
+---
+
+### 1. 인증 (Authentication)  
+시큐리티의 인증 및 인가 흐름은 다음과 같이 진행됩니다:  
+**ServletFilter** → **Authentication** → **Authorization** → **Spring MVC**
+
+---
+
+### 흐름도
+
+- **ServletFilter**:  
+  `DelegatingFilterProxy` → `FilterChainProxy` (SecurityFilterChain)
+
+- **Authentication**:  
+  `AuthenticationFilter` → `Authentication` ←→ `AuthenticationManager` →  
+  `AuthenticationProvider` (`PasswordEncoder`) ←→ `UserDetailsService` ←→ `UserDetails` →  
+  `SecurityContextHolder` (`SecurityContext`, `Authentication`, `UserDetails`)
+
+- **Authorization**:  
+  `AuthorizationFilter` ←→ `AuthorizationManager` ←→ `AuthorizationDecision`
+
+### 용어 및 과정
+
+1. **Authentication (인증)**  
+   인증은 특정 자원에 접근하려는 사람의 신원을 확인하는 절차를 의미합니다. 사용자의 인증 정보를 저장하는 객체인 `Authentication`을 통해 인증 상태를 관리합니다. 인증이 완료되면 `SecurityContext`에 저장되어 전역적으로 참조됩니다.
+
+2. **Principal (자바의 Principal 상속)**  
+   자바의 `Principal` 인터페이스를 상속하여 사용자의 고유 식별자(주로 사용자 이름)를 나타냅니다.
+
+3. **Authentication 객체의 주요 속성**  
+   - `principal` (주로 사용자 이름)  
+   - `credentials` (주로 비밀번호)  
+   - `authorities` (권한 정보)  
+   - `authenticated` (인증 상태)  
+   이들은 보안상의 이유로 `Authentication` 토큰 객체로 캡슐화되어 전달됩니다.
+
+4. **AuthenticationManager 처리 이후**  
+   - `principal`은 인증된 `UserDetails` 객체로 대체됩니다.  
+   - `credentials`는 이미 인증되었기 때문에 `null`로 설정됩니다.  
+   - `authorities`는 `ROLE_USER` 같은 `GrantedAuthority` 목록으로 채워집니다.  
+   - `authenticated`는 `true`로 설정됩니다.  
+
+5. **SecurityContextHolder**  
+   최종적으로 `AuthenticationFilter`는 `SecurityContextHolder`를 통해 `SecurityContext`에 `Authentication`과 `UserDetails`를 저장합니다.
  
    
