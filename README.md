@@ -160,7 +160,7 @@ LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
 RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest == currentRequest -> chain.doFilter(savedRequest,reponse)
 
 ## 3일차
---
+---
 
 ## 인증 아키텍처
 
@@ -215,5 +215,65 @@ RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest
 
 5. **SecurityContextHolder**  
    최종적으로 `AuthenticationFilter`는 `SecurityContextHolder`를 통해 `SecurityContext`에 `Authentication`과 `UserDetails`를 저장합니다.
+
+---
+## 인증 컨텍스트
+
+### SecurityContext
+- 현재 인증된 사용자의 Authentication 객체를 저장
+- SecurityContextHolder를 통해 ThreadLocal 저장소에 보관되어, 각 스레드가 독립적으로 보안 컨텍스트를 유지
+- 애플리케이션 전반에서 접근 가능 (현재 사용자 인증 상태·권한 확인)
+
+- 참조: SecurityContextHolder.getContext()
+- 삭제: SecurityContextHolder.clearContext()
+
+---
+
+### SecurityContextHolder
+- SecurityContext를 저장하는 클래스
+- SecurityContextHolderStrategy(전략 패턴)를 통해 다양한 저장 전략을 지원
+- 기본 전략: MODE_THREADLOCAL (서버 환경에서 안전)
+- 전략 모드 직접 지정: SecurityContextHolder.setStrategyName(String)
+  - MODE_THREADLOCAL: 각 스레드가 독립적인 보안 컨텍스트 유지
+  - MODE_INHERITABLETHREADLOCAL: 부모 스레드의 컨텍스트를 자식 스레드가 상속
+  - MODE_GLOBAL: 모든 스레드가 단일 보안 컨텍스트를 공유 (테스트/간단한 앱에만 적합)
+
+**쓰레드 재사용으로 인한 보안 문제를 방지하기 위해, 응답 직전에 항상 SecurityContext를 삭제해야 함.**
+
+---
+
+### AuthenticationManager
+- 인증 필터 등으로부터 Authentication 객체를 전달받아 인증 시도
+- 여러 AuthenticationProvider를 관리하며 적절한 Provider를 찾아 인증 처리
+- AuthenticationManagerBuilder로 생성 (주로 ProviderManager가 구현체)
+
+#### AuthenticationManagerBuilder
+- AuthenticationManager를 구성하는 빌더
+- UserDetailsService, AuthenticationProvider 등을 설정
+- HttpSecurity.getSharedObject(AuthenticationManagerBuilder.class)로 참조
+
+---
+
+### AuthenticationProvider
+- AuthenticationManager로부터 위임받아 실제 사용자 인증 처리 (아이디, 비밀번호, 토큰 등)
+- 사용자 신원/자격 증명 검증
+- 인증 성공 시: Authentication 객체 반환 (사용자 정보 및 권한 포함)
+- 인증 실패 시: AuthenticationException 등 예외 발생
+
+---
+
+### UserDetailsService
+- 사용자 상세 정보(아이디, 비밀번호, 권한)를 로드하는 인터페이스
+- AuthenticationProvider에서 주로 사용
+- 보통 UserRepository를 통해 DB에서 사용자 정보 검색
+- 사용자 없을 때 UsernameNotFoundException 발생
+
+---
+
+### UserDetails
+- Spring Security에서 사용하는 사용자 정보 인터페이스
+- 사용자 ID, 비밀번호, 권한 등 포함
+- 인증 완료 후 Authentication 객체에 담겨 보안 컨텍스트에 저장됨
+- 기본 구현체: org.springframework.security.core.userdetails.User
  
    
