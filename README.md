@@ -1,12 +1,8 @@
 ## 목차
 - [초기화 기본 순서](#초기화-기본-순서)
 - [단계별 설명](#단계별-설명)
-- [Filter란](#filter란)
-- [DelegatingFilterProxy란](#delegatingfilterproxy란)
-- [RememberMeAuthenticationFilter](#RememberMeAuthenticationFilter)
-- [로그아웃 처리](#LogOut)
-- [요청 캐시 RequestCache SavedRequest](#요청-캐시)
-- [인증](#Authentication)
+- [인증 프로세스](#인증-프로세스)
+- [인증 아키텍쳐](#인증-아키텍처)
   
 
 
@@ -48,7 +44,7 @@
 
 ---
 
-##  DelegatingFilterProxy란?
+###  DelegatingFilterProxy란?
 
 - **서블릿 필터 역할 + 스프링의 의존성 주입, AOP 기능과 연동**되도록 설계된 스프링 필터입니다.  
 - 서블릿 컨테이너와 스프링 ApplicationContext를 연결해주는 **중간 다리 역할**을 합니다.
@@ -79,7 +75,7 @@
 
 
 ---
-### 인증 프로세스 
+## 인증 프로세스 
 #### UsernamePasswordAuthenticationFilter : AbstractAuthenticationProcessingFilter -> AttemptAuthentication() -> UsernamePasswordAuthenticationFilter, CustomAuthenticationFilter
 1.AbstractAuthenticationProcessingFilter 확장한 클래스로 HttpServletRequest에서 제출된 사용자 이름과 비밀번호로 부터 인증을 수행한다. 
 
@@ -175,7 +171,7 @@ RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest
 
 ---
 
-### Authentication
+### 인증 아키텍쳐
 
 1. **인증 (Authentication)**  
 2. **보안 컨텍스트 (SecurityContext & SecurityContextHolder)**  
@@ -288,5 +284,8 @@ RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest
 - 사용자 ID, 비밀번호, 권한 등 포함
 - 인증 완료 후 Authentication 객체에 담겨 보안 컨텍스트에 저장됨
 - 기본 구현체: org.springframework.security.core.userdetails.User
+
+----
+## 인증 상태 연송성
  
    
