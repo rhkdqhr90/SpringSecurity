@@ -5,11 +5,12 @@
 - [DelegatingFilterProxy란](#delegatingfilterproxy란)
 - [동작 순서](#동작-순서)
 - [인증 프로세스](인증-프로세스)
-- [인증 상태 RememberMeAuthenticationFilter](#인증-상태-remembermeauthenticationfilter)
-- [로그아웃 처리](#로그아웃-처리)
-- [요청 캐시 RequestCache SavedRequest](#요청-캐시-requestcache-savedrequest)
-- [3일차 인증 아키텍처](#3일차-인증-아키텍처)
-#-1일차-
+- [인증 상태 RememberMeAuthenticationFilter](#RememberMeAuthenticationFilter)
+- [로그아웃 처리](#LogOut)
+- [요청 캐시 RequestCache SavedRequest](#요청-캐시)
+- [인증 아키텍처](#인증-아키텍처)
+
+
 
 ---
 ### 초기화 기본 순서
@@ -120,7 +121,8 @@
 - `AuthenticationFailureHandler`로 실패 페이지 이동 처리  
 
 ---
-### 인증 상태 RememberMeAuthenticationFilter : 1.SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
+## RememberMeAuthenticationFilter
+: 인증 상태 SecurityContextHolder에 Authertication이 포함되지 않은 경우 실행되는 필터
 1.SecurityContextHolder
 
 
@@ -137,7 +139,8 @@
  -> RmemberMeAuthenticationToken -> SecurituyContext -> SecurityContextRepository -> ApplicationEventPublisher
 
  ---
- ### LogOut : DefaultLogoutPageGenerationFilter를 통해 로그아웃 페이지를 Get/logout URL을 기본적으 제공 
+ ## LogOut
+ DefaultLogoutPageGenerationFilter를 통해 로그아웃 페이지를 Get/logout URL을 기본적으로 제공 
 
  
  1. 로그아웃 실행은 기본적으로 POST/logout dmfhaks rksmdgksk CSRF 기능을 비성활 할 경우 혹은 RequestMatcher 를 사용할 경우 GET,PUT,DELETE 모두 가능
@@ -150,7 +153,8 @@ LogOutFilter -> RequestMatcher -> LogoutHandler -> LogoutSuccessHandler
 
 ---
 
-### 요청 캐시: RequestCache, SavedRequest
+## 요청 캐시
+### RequestCache, SavedRequest
 
 1.RequestCache(Interface): 인증 절차 문제로 리다이렉트 된 후에 이전 요청을 담고 있는 SavedRequest객체를 쿠키 혹은 세션에 저장 하고 다시 필요시 가져와 실행 하는 캐시 메카니즘 HttpSessionRequestCache (구현체)
 
