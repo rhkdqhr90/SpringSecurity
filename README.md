@@ -3,8 +3,6 @@
 - [단계별 설명](#단계별-설명)
 - [Filter란](#filter란)
 - [DelegatingFilterProxy란](#delegatingfilterproxy란)
-- [동작 순서](#동작-순서)
-- [인증 프로세스](인증-프로세스)
 - [인증 상태 RememberMeAuthenticationFilter](#RememberMeAuthenticationFilter)
 - [로그아웃 처리](#LogOut)
 - [요청 캐시 RequestCache SavedRequest](#요청-캐시)
@@ -176,7 +174,7 @@ RquestCacheAwareFilter -> SavedRequest (null -> chain.doFilter) --> SavedRequest
 
 ---
 
-## 인증 아키텍처
+### 인증 아키텍처
 
 1. **인증 (Authentication)**  
 2. **보안 컨텍스트 (SecurityContext & SecurityContextHolder)**  
