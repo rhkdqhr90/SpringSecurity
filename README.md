@@ -33,7 +33,7 @@
 9. SecurityFilterChains(List)에 모든 SecurityFilterChain 저장
 
 ---
-###  Filter란?
+-  Filter란?
 
 - **서블릿 Filter**는 웹 애플리케이션에서 클라이언트 요청과 서버 응답을 가공·검사하는 역할을 합니다.  
 - **WAS(서블릿 컨테이너)**에서 실행 및 종료됩니다.  
@@ -44,7 +44,7 @@
 
 ---
 
-###  DelegatingFilterProxy란?
+-  DelegatingFilterProxy란?
 
 - **서블릿 필터 역할 + 스프링의 의존성 주입, AOP 기능과 연동**되도록 설계된 스프링 필터입니다.  
 - 서블릿 컨테이너와 스프링 ApplicationContext를 연결해주는 **중간 다리 역할**을 합니다.
