@@ -345,3 +345,11 @@ SecurityContextPersistenceFilter 와 다른점이다
 • 기존 세션을 유지하면서 세션 ID만 변경하여 인증 과정에서 세션 고정 공격을 방지하는 방식이다. 기본 값으로 설정되어 있다</br>
 • 새로운 세션을 생성하고 기존 세션 데이터를 복사하지 않는 방식이다(SPRING_SECURITY_ 로 시작하는 속성은 복사한다)</br>
 • 새로운 세션을 생성하고 모든 기존 세션 속성을 새 세션으로 복사한다
+
+**세션 생성 정책**
+> 인증된 사용자에 대한 세션 생성정책을 설정하여 어떻게 세션을 관리할지 결정 할 수 있으며 이 정책은 SessionCreationPolicy로 설정</br>
+**SeesionCreationPolicy**</br>
+1. Always: 인증여부에 상관 업ㅈㅅ이 항상 세션 생성, ForceEagerSessionCreationFIlter 클래스를 추가 구성, 세션을 장제로 생성
+2. NEVER: 세션을 생성하지 않지만 애플리케이션(WAS)이 이미 생성한 세션은 사용할 수있다.
+3. IF_REQUIRED: 필요한 경우에만 세션 생성, 인증이 필요한 자원에 접근할 떄 세션 생성
+4. STATELESS: 세션을 생성,사용 하지 않는다. 인증 필터는 인증완료 후 SecurityContext를 세션에 저장 하지 않는다. JWT 떄 사용
