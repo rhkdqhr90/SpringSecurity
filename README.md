@@ -321,7 +321,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 3. 세션 정책
 4. SessionManagementFilter & ConcurrentSessionFilter
 
---
+---
 **동시 세션 제어**
 • 사용자가 동시에 여러 세션을 생성하는 것을 관리 하는 전략
 • 사용자 인증 후에 활성화 된 세션 수가 설정된 maximimSessions값과 비교하여 제어 여부를 결정함 
