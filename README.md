@@ -5,6 +5,7 @@
 - [인증 아키텍쳐](#인증-아키텍처)
 - [인증상태 연속성](#인증-상태-영속성)
 - [세션 관리](#세션-관리)
+- [예외 처리](#예외-처리)
   
 
 
@@ -362,3 +363,15 @@ SecurityContextPersistenceFilter 와 다른점이다
 > 각 요청에 대해 SessionRegistry 에서 SessionInfomation을 검색하고 세션이 만료로 표시 되었는지 확인, 만료로 경우 로그아웃(세션무효화)</br>
 > 각 요청에 대해 SessionRegistry.rfresghLastRequest를 호풀, 등록된 세션이 항상 마지막 업데이트 날짜/시간을 가지도록 한다.</br>
 > SessionManagementFilter 세션 허용개수 초과 등 하면 세션 만료 설정을 한다. 만료 되어있는 경우 로그아웃
+---
+## 예외 처리
+> 필터체인 내에서 발생하는 예외를 의미, 인증예외, 인가 예외가 있다.
+> ExceptionTranslationFilter가 사용되며 인증,인가 상태에 따라 로그인 재시도,401,403 코드 응답
+
+**예외 처리 유형**
+**AuthenticationException**
+1.SecurityContext 인증 정보 삭제 : Authentication 초기화
+2.AuthenticationEntryPoint호출 : AuthenticationException 감지 되면 AuthenticationEntryPoint호출 인증 실패를 공통적으로 처리
+3. 인증 프롷세스의 요청정보 저장 하고 검색: RequestCache, SavedRequest 인증 프로세스 동안 절달되는 요청을 세션, 쿠키에 저장 사용자가 인증 완료한 후 검색 재사용
+**AccessDeniedException**
+1. AccessDeniedHanler호출 :AccessDeniedException 감지되면 익명사용자 인지 판단, 익명사용자인 경우 인증예외 처리 아닌경우 AccessDeniedHandler 위임
