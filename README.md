@@ -330,5 +330,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 2. 사용자 인증 시도 차단 : 최대 허용 개수 만큼 동시 인증 가능하고 그외 사용자 인증시도 차단
 
 **동시 세션 제어-- SessionManagent()API**
- 
+>invalidSessionUrl,expiredUrl(해야함) : 이미 만료된 세션 요청 리다이렉션 url
+>maximumSEssions : 사용자 최대 세션수
+>maxSeesionsPreventsLogin : true >사용자 인증 시도 차단 , flase >  세션 강제 만료 
    
