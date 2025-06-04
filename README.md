@@ -6,6 +6,7 @@
 - [인증상태 연속성](#인증-상태-영속성)
 - [세션 관리](#세션-관리)
 - [예외 처리](#예외-처리)
+- [악용 보호](#악용-보호)
   
 
 
@@ -377,3 +378,21 @@ SecurityContextPersistenceFilter 와 다른점이다
 
 **AccessDeniedException**
 1. AccessDeniedHanler호출 :AccessDeniedException 감지되면 익명사용자 인지 판단, 익명사용자인 경우 인증예외 처리 아닌경우 AccessDeniedHandler 위임
+---
+## 악용 보호
+**CORS(Cross Origin Resource Sharing) 교차 출처 리소스 공유**</br>
+1. 보안을 위해 SOP(Same Origin Policy) 사용함
+2. 다른 출처의 리소스를 사용할 경우 CORS는 http헤더 를 통해 웹페이지가 다른 출처의 리소스에 접근 할 수 있도록 허가를 구함
+3. 출처 비교는 브라우저에 구현된 스펙기준으로 처리, 클라이언트 요청 헤더와 서버 응답헤더를 비교 해서 최종 응답
+4. URL 구성중 Protocol ,Host, Port 세가지가 동일한지 확인하면 된다
+
+**Simple Request**
+1. Prefilght(예비요청) 없이 자동으로 CORS작동 , Access-Control-Allow-Origin 과 같은 값을 전송 브라우저가 비교
+2. GET,POST,HEAD 중 한가지 MEthod를 사용해야 한다.
+3. 헤더는 Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width Width 만 가능하고 Custom Header 는 허용되지
+않는다
+4. Content-type 은 application/x-www-form-urlencoded, multipart/form-data, text/plain 만 가능하다
+
+**Prefilght**
+1. 브라우저는 요청을 한번에 보내지 않고, 예비 요청과 본 요청으로 나누어 서버에 전달하는데 브라우저가 예비요청을 보내는 것을 Preflight 라고 하며 이 예비요청의 메소드에는 OPTIONS 가 사용된다
+2. 예비요청의 역할은 본 요청을 보내기 전에 브라우저 스스로 안전한 요청인지 확인하는 것으로 요청 사양이 Simple Request 에 해당하지 않을 경우 브라우저가 Preflight Request 을 실행한다
