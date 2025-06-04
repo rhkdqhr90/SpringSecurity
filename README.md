@@ -355,7 +355,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 4. STATELESS: 세션을 생성,사용 하지 않는다. 인증 필터는 인증완료 후 SecurityContext를 세션에 저장 하지 않는다. JWT 떄 사용 ,CSRF 있을 경우 세션을 생성 CSRF 토큰은 저장, SecurityContxt영속성에 영향을 미치지 않는다.
 
 **SessionManagementFilter**
->사용자 인증 감시, 인증된 경우 세션 고정 보호, 다중 로그인 확인 하는등 세션 관련 활동을 수행하기 위해 세션인증전략(SessionAuthenticationStrategy)을 호출 하는 필터 클래스
+>사용자 인증 감시, 인증된 경우 세션 고정 보호, 다중 로그인 확인 하는등 세션 관련 활동을 수행하기 위해 세션인증전략(SessionAuthenticationStrategy)을 호출 하는 필터 클래스</br>
 >시큐리티 6이상에서는 기본설정 되지 않으며 세션관리API를 설정을 통해 생성
 
 **ConcurrentSessionFilter**
