@@ -1,5 +1,6 @@
 package srpingsecurity.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,10 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class IndexController {
-
+    private final SessionInfoService sessionInfoService;
     @Autowired
     SecurityContextService securityContextService;
+
+    @GetMapping("/sessionInfo")
+    public String sessionInfo() {
+        sessionInfoService.sessionInfo();
+        return "sessionInfo";
+    }
 
     @GetMapping("/")
     public Authentication index(Authentication authentication ) {
@@ -60,5 +68,19 @@ public class IndexController {
         return "로그아웃 성공";
 
     }
+
+
+    @GetMapping("/invalidSessionUrl")
+    public String invalidSessionUrl() {
+        return "invalidSessionUrl";
+
+    }
+
+    @GetMapping("/expiredUrl")
+    public String expiredUrl() {
+        return "expiredUrl";
+
+    }
+
 
 }

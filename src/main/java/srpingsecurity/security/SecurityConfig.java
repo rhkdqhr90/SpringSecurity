@@ -3,51 +3,49 @@ package srpingsecurity.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AnonymousAuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.List;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig2 {
+public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/login").permitAll()
-                            .anyRequest().authenticated())
-//                            .formLogin(Customizer.withDefaults())
-                            .csrf(AbstractHttpConfigurer::disable);
+                        .requestMatchers("/expiredUrl", "/invalidSessionUrl").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults());
+
+
 
         return http.build();
     }
 
-
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
+
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return  new CustomUserDetailsService();
+        UserDetails user = User.withUsername("user").password("{noop}1111").roles("USER").build();
+        return  new InMemoryUserDetailsManager(user);
     }
 }
