@@ -333,4 +333,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 >invalidSessionUrl,expiredUrl(해야함) : 이미 만료된 세션 요청 리다이렉션 url
 >maximumSEssions : 사용자 최대 세션수
 >maxSeesionsPreventsLogin : true >사용자 인증 시도 차단 , flase >  세션 강제 만료 
-   
+
+**세션 고정 보호 전략**
+>•세션 고정 공격은 악의적인 공격자가 사이트에 접근하여 세션을 생성한 다음 다른 사용자가 같은 세션으로 로그인하도록 유도하는 위험을 말한다</br>
+>•스프링 시큐리티는 사용자가 로그인할 때 새로운 세션을 생성하거나 세션 ID를 변경함으로써 이러한 공격에 자동으로 대응한다
