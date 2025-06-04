@@ -360,4 +360,5 @@ SecurityContextPersistenceFilter 와 다른점이다
 
 **ConcurrentSessionFilter**
 > 각 요청에 대해 SessionRegistry 에서 SessionInfomation을 검색하고 세션이 만료로 표시 되었는지 확인, 만료로 경우 로그아웃(세션무효화)</br>
-> 각 요청에 대해 SessionRegistry.rfresghLastRequest를 호풀, 등록된 세션이 항상 마지막 업데이트 날짜/시간을 가지도록 한다.
+> 각 요청에 대해 SessionRegistry.rfresghLastRequest를 호풀, 등록된 세션이 항상 마지막 업데이트 날짜/시간을 가지도록 한다.</br>
+> SessionManagementFilter 세션 허용개수 초과 등 하면 세션 만료 설정을 한다. 만료 되어있는 경우 로그아웃
