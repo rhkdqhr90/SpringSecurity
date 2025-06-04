@@ -16,9 +16,9 @@ public class IndexController {
     SecurityContextService securityContextService;
 
     @GetMapping("/")
-    public String index( ) {
+    public Authentication index(Authentication authentication ) {
         securityContextService.setSecurityContext();
-        return "index";
+        return authentication;
     }
 
 
