@@ -349,7 +349,15 @@ SecurityContextPersistenceFilter 와 다른점이다
 **세션 생성 정책**
 > 인증된 사용자에 대한 세션 생성정책을 설정하여 어떻게 세션을 관리할지 결정 할 수 있으며 이 정책은 SessionCreationPolicy로 설정</br>
 **SeesionCreationPolicy**</br>
-1. Always: 인증여부에 상관 업ㅈㅅ이 항상 세션 생성, ForceEagerSessionCreationFIlter 클래스를 추가 구성, 세션을 장제로 생성
+1. Always: 인증여부에 상관 없이 항상 세션 생성, ForceEagerSessionCreationFIlter 클래스를 추가 구성, 세션을 장제로 생성
 2. NEVER: 세션을 생성하지 않지만 애플리케이션(WAS)이 이미 생성한 세션은 사용할 수있다.
 3. IF_REQUIRED: 필요한 경우에만 세션 생성, 인증이 필요한 자원에 접근할 떄 세션 생성
-4. STATELESS: 세션을 생성,사용 하지 않는다. 인증 필터는 인증완료 후 SecurityContext를 세션에 저장 하지 않는다. JWT 떄 사용
+4. STATELESS: 세션을 생성,사용 하지 않는다. 인증 필터는 인증완료 후 SecurityContext를 세션에 저장 하지 않는다. JWT 떄 사용 ,CSRF 있을 경우 세션을 생성 CSRF 토큰은 저장, SecurityContxt영속성에 영향을 미치지 않는다.
+
+**SessionManagementFilter**
+>사용자 인증 감시, 인증된 경우 세션 고정 보호, 다중 로그인 확인 하는등 세션 관련 활동을 수행하기 위해 세션인증전략(SessionAuthenticationStrategy)을 호출 하는 필터 클래스
+>시큐리티 6이상에서는 기본설정 되지 않으며 세션관리API를 설정을 통해 생성
+
+**ConcurrentSessionFilter**
+> 각 요청에 대해 SessionRegistry 에서 SessionInfomation을 검색하고 세션이 만료로 표시 되었는지 확인, 만료로 경우 로그아웃(세션무효화)</br>
+> 각 요청에 대해 SessionRegistry.rfresghLastRequest를 호풀, 등록된 세션이 항상 마지막 업데이트 날짜/시간을 가지도록 한다.
