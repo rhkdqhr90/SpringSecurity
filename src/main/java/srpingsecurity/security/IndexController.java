@@ -13,22 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class IndexController {
-    private final SessionInfoService sessionInfoService;
-    @Autowired
-    SecurityContextService securityContextService;
-
-    @GetMapping("/sessionInfo")
-    public String sessionInfo() {
-        sessionInfoService.sessionInfo();
-        return "sessionInfo";
-    }
 
     @GetMapping("/")
-    public Authentication index(Authentication authentication ) {
-        securityContextService.setSecurityContext();
+    public Authentication index(Authentication authentication) {
         return authentication;
     }
-
 
     @GetMapping("/loginPage")
     public String loginPage() {
@@ -81,6 +70,17 @@ public class IndexController {
         return "expiredUrl";
 
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/denied")
+    public String denied() {
+        return "denied";
+    }
+
 
 
 }

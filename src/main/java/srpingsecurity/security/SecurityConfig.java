@@ -1,8 +1,12 @@
 package srpingsecurity.security;
 
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -18,6 +22,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import java.io.IOException;
 
 @EnableWebSecurity
 @Configuration
@@ -28,19 +35,25 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/expiredUrl", "/invalidSessionUrl").permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults());
+                .formLogin(Customizer.withDefaults())
+                .exceptionHandling(exception ->exception
+//                        exception.authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/login"))
+                                .accessDeniedHandler(new AccessDeniedHandler() {
+                                    @Override
+                                    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+                                        System.out.println("exception" + accessDeniedException.getMessage());
+                                        response.sendRedirect("/denied");
+                                    }
+                                }));
 
 
 
         return http.build();
     }
 
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
 
 
     @Bean
