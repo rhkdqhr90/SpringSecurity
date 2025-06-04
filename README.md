@@ -371,8 +371,8 @@ SecurityContextPersistenceFilter 와 다른점이다
 **예외 처리 유형**</br>
 
 **AuthenticationException**</br>
-1.SecurityContext 인증 정보 삭제 : Authentication 초기화</br>
-2.AuthenticationEntryPoint호출 : AuthenticationException 감지 되면 AuthenticationEntryPoint호출 인증 실패를 공통적으로 처리</br>
+1. SecurityContext 인증 정보 삭제 : Authentication 초기화</br>
+2. AuthenticationEntryPoint호출 : AuthenticationException 감지 되면 AuthenticationEntryPoint호출 인증 실패를 공통적으로 처리</br>
 3. 인증 프롷세스의 요청정보 저장 하고 검색: RequestCache, SavedRequest 인증 프로세스 동안 절달되는 요청을 세션, 쿠키에 저장 사용자가 인증 완료한 후 검색 재사용</br>
 
 **AccessDeniedException**
