@@ -414,7 +414,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 >• 두 군데 중 원하는 위치에 토큰을 저장하도록 설정을 통해 지정할 수 있다</br>
 
 **CSRF 토큰처리 :CsrfTokenRequestHandler**
->• CsrfToken 은 CsrfTokenRequestHandler 를 사용하여 토큰을 생성 및 응답하고 HTTP 헤더 또는 요청 매개변수로부터 토큰의 유효성을 검증하도록 한다
+>• CsrfToken 은 CsrfTokenRequestHandler 를 사용하여 토큰을 생성 및 응답하고 HTTP 헤더 또는 요청 매개변수로부터 토큰의 유효성을 검증하도록 한다</br>
 >• XorCsrfTokenRequestAttributeHandler 와 CsrfTokenRequestAttributeHandler 를 제공하며 사용자 정의 핸들러를 구현할 수 있다
 
 **CSRF 토큰 지연로딩**
