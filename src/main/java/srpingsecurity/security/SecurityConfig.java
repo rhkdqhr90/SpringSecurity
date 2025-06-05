@@ -1,47 +1,40 @@
 package srpingsecurity.security;
 
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.access.expression.DefaultHttpSecurityExpressionHandler;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 
-import java.io.IOException;
+
+
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ApplicationContext context, CustomWebSecurity customWebSecurity) throws Exception {
+        DefaultHttpSecurityExpressionHandler expressionHandler = new DefaultHttpSecurityExpressionHandler();
+        expressionHandler.setApplicationContext(context);
+        WebExpressionAuthorizationManager authorizationManager = new WebExpressionAuthorizationManager("@customWebSecurity.check(authentication,request)");
+        authorizationManager.setExpressionHandler(expressionHandler);
+
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/home").hasRole("USER")
-                        .requestMatchers("/anonymouse").hasRole("USER")
-                        .requestMatchers("/authentication").hasAnyRole("USER","MANAGER","ADMIN")
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/custom/**").access(authorizationManager)
+                        .requestMatchers(new CustomRequestMatcher("/admin")).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
 
@@ -60,6 +53,6 @@ public class SecurityConfig {
         UserDetails user = User.withUsername("user").password("{noop}1111").roles("USER").build();
         UserDetails manager = User.withUsername("manager").password("{noop}1111").roles("MANAGER").build();
         UserDetails admin = User.withUsername("admin").password("{noop}1111").roles("ADMIN","Writhe").build();
-        return  new InMemoryUserDetailsManager(user);
+        return  new InMemoryUserDetailsManager(user,admin,manager);
     }
 }
