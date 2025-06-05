@@ -17,16 +17,6 @@ public class IndexController {
     }
 
 
-    @GetMapping("/user")
-    public String user() {
-        return "user";
-    }
-
-    @GetMapping("/user/{name}")
-    public String userName(@PathVariable(value = "name") String name) {
-        return name;
-    }
-
     @GetMapping("/api/db")
     public String api() {
         return "api";
