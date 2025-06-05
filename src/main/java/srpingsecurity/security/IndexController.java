@@ -1,13 +1,14 @@
 package srpingsecurity.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -79,6 +80,19 @@ public class IndexController {
     @GetMapping("/denied")
     public String denied() {
         return "denied";
+    }
+
+    @PostMapping("/csrf")
+    public String csrf() {
+        return "csrf 적용됨";
+    }
+
+    @GetMapping("/csrfToken")
+    public String csrfFail(HttpServletRequest request) {
+        CsrfToken attribute1   =(CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        CsrfToken csrf =(CsrfToken)  request.getAttribute("_csrf");
+        return attribute1.getToken();
+
     }
 
 

@@ -1,8 +1,22 @@
 ### Send POST request with json body
-POST http://localhost:8080/login
+GET http://localhost:8080
 Content-Type: application/json
 
-{
-  "username": "user",
-  "password": "1111"
-}
+### Send POST request with json body
+POST http://localhost:8080/csrf
+Content-Type: application/json
+
+### Send POST request with json body
+POST http://localhost:8080/csrf
+Content-Type: application/x-www-form-urlencoded
+
+_csrf = pxmmBi8auSc2eNa9OdY3ou_AoXcV_5bOVtpc00HmwbsrmoQkxi6UYh1-3UYbHbeIW_sDxN2ljBZ2nfTjYOg64yDX-IxPqbZF
+### Send POST request with json body
+POST http://localhost:8080/ingnoreCsrf
+Content-Type: application/json
+
+### Send POST request with json body
+GET http://localhost:8080/csrfToken
+Content-Type: application/json
+
+
