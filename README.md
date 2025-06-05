@@ -464,11 +464,11 @@ SecurityContextPersistenceFilter 와 다른점이다
 - @PostFilter : 메소드가 반환하는 컬렉션 타입의 결과를 필터링, 반환되는 객체가 특정 보안을 만족해야 결과를 반환 만족 못하면 결과에서 제거
 
 2. @Secured
->• 메소드에 적용하면 지정된 권한(역할)을 가진 사용자만 해당 메소드를 호출할 수 있으며 더 풍부한 형식을 지원하는 @PreAuthorize 사용을 권장한다
+>• 메소드에 적용하면 지정된 권한(역할)을 가진 사용자만 해당 메소드를 호출할 수 있으며 더 풍부한 형식을 지원하는 @PreAuthorize 사용을 권장한다</br>
 >• 사용하려면 스프링 시큐리티 설정에서 @EnableMethodSecurity(securedEnabled = true) 설정을 활성화해야 한다
 
 3 JSR-250
->•  @RolesAllowed, @PermitAll 및 @DenyAll 어노테이션 보안 기능이 활성화 된다
+>•  @RolesAllowed, @PermitAll 및 @DenyAll 어노테이션 보안 기능이 활성화 된다</br>
 >•  스프링 시큐리티 설정에서 @EnableMethodSecurity(jsr250Enabled = true) 설정을 활성화해야 한다
 
 4. 메타 주석 사용
