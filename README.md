@@ -445,5 +445,5 @@ SecurityContextPersistenceFilter 와 다른점이다
 
 **표현식 권한 규칠 설정**
 > 스프링 시큐리티는 표현식을 사용해서 권한 규칙을 설정하도록 WebExpressionAuthorizationManager 를 제공한다
-> 표현식은 시큐리티가 제공하는 권한 규칙을 사용하거나 사용자가 표현식을 커스텀하게 구현해서 설정 가능하다
+> 표현식은 시큐리티가 제공하는 권한 규칙을 사용하거나 사용자가 표현식을 커스텀하게 구현해서 설정 가능하다</br>
 > requestMatchers().access(new WebExpressionAuthorizationManager("expression"))
