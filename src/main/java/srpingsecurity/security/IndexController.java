@@ -27,13 +27,13 @@ public class IndexController {
         return name;
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
+    @GetMapping("/api/db")
+    public String api() {
+        return "api";
     }
 
-    @GetMapping("/custom/db")
-    public String custom() {
-        return "custom";
+    @GetMapping("/oauth/db")
+    public String oauth() {
+        return "oauth";
     }
 }
