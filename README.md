@@ -394,24 +394,24 @@ SecurityContextPersistenceFilter 와 다른점이다
 4. Content-type 은 application/x-www-form-urlencoded, multipart/form-data, text/plain 만 가능하다
 
 **Prefilght**
-1. 브라우저는 요청을 한번에 보내지 않고, 예비 요청과 본 요청으로 나누어 서버에 전달하는데 브라우저가 예비요청을 보내는 것을 Preflight 라고 하며 이 예비요청의 메소드에는 OPTIONS 가 사용된다
-2. 예비요청의 역할은 본 요청을 보내기 전에 브라우저 스스로 안전한 요청인지 확인하는 것으로 요청 사양이 Simple Request 에 해당하지 않을 경우 브라우저가 Preflight Request 을 실행한다
+1. 브라우저는 요청을 한번에 보내지 않고, 예비 요청과 본 요청으로 나누어 서버에 전달하는데 브라우저가 예비요청을 보내는 것을 Preflight 라고 하며 이 예비요청의 메소드에는 OPTIONS 가 사용된다</br>
+2. 예비요청의 역할은 본 요청을 보내기 전에 브라우저 스스로 안전한 요청인지 확인하는 것으로 요청 사양이 Simple Request 에 해당하지 않을 경우 브라우저가 Preflight Request 을 실행한다</br>
 
 ---
 **CSRF(Cross Site Request Forgery, 사이트 간 요청 위조)**
->• 웹 애플리케이션의 보안 취약점으로 공격자가 사용자로 하여금 이미 인증된 다른 사이트에 대해 원치 않는 작업을 수행하게 만드는 기법
->• 이 공격은 사용자의 브라우저가 자동으로 보낼 수 있는 인증 정보, 예를 들어 쿠키나 기본 인증 세션을 이용하여 사용자가 의도하지 않은 요청을 서버로 전송하게 만든다
->• 이는 사용자가 로그인한 상태에서 악의적인 웹사이트를 방문하거나 이메일 등을 통해 악의적인 링크를 클릭할 때 발생할 수 있다
+>• 웹 애플리케이션의 보안 취약점으로 공격자가 사용자로 하여금 이미 인증된 다른 사이트에 대해 원치 않는 작업을 수행하게 만드는 기법</br>
+>• 이 공격은 사용자의 브라우저가 자동으로 보낼 수 있는 인증 정보, 예를 들어 쿠키나 기본 인증 세션을 이용하여 사용자가 의도하지 않은 요청을 서버로 전송하게 만든다</br>
+>• 이는 사용자가 로그인한 상태에서 악의적인 웹사이트를 방문하거나 이메일 등을 통해 악의적인 링크를 클릭할 때 발생할 수 있다</br>
 
 **CSRF 기능 활성화**
->• 토큰을 서버에서 생성해서 클라이언트 세션에 저장, 모든 변경 요청에 포함 서버에 이 토큰을 검증 요청 유효성 확인
->• 기본설정은 GET,HEAD,TREAC,OPTIONS 같이 안전 메소드는 무시 , POST, PUT ,DELETE 변경 요청은 CSRF 토큰 검사
->• CSRF토큰은 브라우저에 의해 자동 포함 되지 않는 요청 부분에 위치, 매개변수나 헤더에 존재
+>• 토큰을 서버에서 생성해서 클라이언트 세션에 저장, 모든 변경 요청에 포함 서버에 이 토큰을 검증 요청 유효성 확인</br>
+>• 기본설정은 GET,HEAD,TREAC,OPTIONS 같이 안전 메소드는 무시 , POST, PUT ,DELETE 변경 요청은 CSRF 토큰 검사</br>
+>• CSRF토큰은 브라우저에 의해 자동 포함 되지 않는 요청 부분에 위치, 매개변수나 헤더에 존재</br>
 >• 쿠키에 토큰 을 넣는것은 위험(자동 전달)
 
 **CSRF 토큰 유지: CsrfTokenRepository(인터페이스)**
->• CsrfToken은 CsrfTokenRepository 를 사용하여 영속화 하며 HttpSessionCsrfTokenRepository 와 CookieCsrfTokenRepository 를 지원한다
->• 두 군데 중 원하는 위치에 토큰을 저장하도록 설정을 통해 지정할 수 있다
+>• CsrfToken은 CsrfTokenRepository 를 사용하여 영속화 하며 HttpSessionCsrfTokenRepository 와 CookieCsrfTokenRepository 를 지원한다</br>
+>• 두 군데 중 원하는 위치에 토큰을 저장하도록 설정을 통해 지정할 수 있다</br>
 
 **CSRF 토큰처리 :CsrfTokenRequestHandler**
 >• CsrfToken 은 CsrfTokenRequestHandler 를 사용하여 토큰을 생성 및 응답하고 HTTP 헤더 또는 요청 매개변수로부터 토큰의 유효성을 검증하도록 한다
