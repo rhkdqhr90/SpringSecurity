@@ -34,15 +34,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
-      XorCsrfTokenRequestAttributeHandler xorCsrfTokenRequestAttributeHandler = new XorCsrfTokenRequestAttributeHandler();
+
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/csrf","/csrfToken").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/home").hasRole("USER")
+                        .requestMatchers("/anonymouse").hasRole("USER")
+                        .requestMatchers("/authentication").hasAnyRole("USER","MANAGER","ADMIN")
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
-//                .csrf(csrf->csrf.csrfTokenRepository(cookieCsrfTokenRepository)
-//                        .csrfTokenRequestHandler(xorCsrfTokenRequestAttributeHandler));
 
 
 
@@ -57,6 +58,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withUsername("user").password("{noop}1111").roles("USER").build();
+        UserDetails manager = User.withUsername("manager").password("{noop}1111").roles("MANAGER").build();
+        UserDetails admin = User.withUsername("admin").password("{noop}1111").roles("ADMIN","Writhe").build();
         return  new InMemoryUserDetailsManager(user);
     }
 }
