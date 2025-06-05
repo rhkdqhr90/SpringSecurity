@@ -7,6 +7,7 @@
 - [세션 관리](#세션-관리)
 - [예외 처리](#예외-처리)
 - [악용 보호](#악용-보호)
+- [인가 프로세스](#인가-프로세스)
   
 
 
@@ -425,3 +426,19 @@ SecurityContextPersistenceFilter 와 다른점이다
 1. Stric: 동일 사이트 모든 요청 쿠키 포함, 크로스 사이트  HTTP 요청 쿠키 포함 안됨</br>
 2. Lax(기본설정) : 동일 사이트 요청 및 메소드가 읽기 전용이면 전송 그렇지 않으면 HTTP 요청에 쿠키가 포함되지 않는다. <a> 태그,window.location.replace,302리다이렉트등에는 쿠키가 포함된다. Iframe,img,AJAX 통신은 쿠키가 전송되지 않는다.
 3. None: 모든 사이트에 쿠키 전송, HTTS에 의한 Secure 쿠키가 설정되야 함
+---
+## 인가 프로세스
+1. 요청 기반 권한 부여(Request Based Authorization)
+2. 메소드 기반 권한 부여(Method Based Authoriztion)
+3. 정적 자원 관리
+4. 계층적 권한
+
+---
+**1.요청 기반 권한 부여(HttpSecurity.authorizeHttpRequests())**
+> 요청 기반 권한 부여와 메소드 기반 권한 부여를 통해 자원에 대한 심층적 방어 제공
+> 요청 기반 권한 부여는 클라이언트의 요청 즉 HttpServletRequest 에 대한 권한 부여 모델링, HttpSecurity인스턴스 사용 규칙 선언</br>
+
+1. requestMachers: Http 요청, 메소드, URL패턴, 요청 파라미터로 특정 보안 설정
+2. 특정 API에만 CSRF보호 적용 하거나 특정 경로에 인증 요구 하지 않는 등 어플리케이션 보안 요구 사항에 맞춰서 유연한 보안 정책 구성
+3. 엔드포인트 & 권한 부여 : 위 에서 아래로 부터 나열된 순서대로 처리 예) /admin/** permitAll() 먼저 적용 되면 /admin/db .hasAuthority(admin) 이 적용 안됨 ${\textsf{\color{엔드 포인트 설정시 좁은 범위 경로를 먼저 정의 하고 보다 큰 범위의 경로를 다음 설정에 정의해야 한다.}엔드 포인트 설정시 좁은 범위 경로를 먼저 정의 하고 보다 큰 범위의 경로를 다음 설정에 정의해야 한다.}}$
+   
