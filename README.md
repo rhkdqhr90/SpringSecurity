@@ -441,5 +441,9 @@ SecurityContextPersistenceFilter 와 다른점이다
 1. requestMachers: Http 요청, 메소드, URL패턴, 요청 파라미터로 특정 보안 설정
 2. 특정 API에만 CSRF보호 적용 하거나 특정 경로에 인증 요구 하지 않는 등 어플리케이션 보안 요구 사항에 맞춰서 유연한 보안 정책 구성
 3. 엔드포인트 & 권한 부여 : 위 에서 아래로 부터 나열된 순서대로 처리 예) /admin/** permitAll() 먼저 적용 되면 /admin/db .hasAuthority(admin) 이 적용 안됨<br>
-###**❗️엔드 포인트 설정시 좁은 범위 경로를 먼저 정의 하고 보다 큰 범위의 경로를 다음 설정에 정의해야 한다**###
-   
+4. **❗️엔드 포인트 설정시 좁은 범위 경로를 먼저 정의 하고 보다 큰 범위의 경로를 다음 설정에 정의해야 한다**
+
+**표현식 권한 규칠 설정**
+> 스프링 시큐리티는 표현식을 사용해서 권한 규칙을 설정하도록 WebExpressionAuthorizationManager 를 제공한다
+> 표현식은 시큐리티가 제공하는 권한 규칙을 사용하거나 사용자가 표현식을 커스텀하게 구현해서 설정 가능하다
+> requestMatchers().access(new WebExpressionAuthorizationManager("expression"))
