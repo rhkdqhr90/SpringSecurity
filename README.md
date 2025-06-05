@@ -419,3 +419,9 @@ SecurityContextPersistenceFilter 와 다른점이다
 
 **CSRF 토큰 지연로딩**
 >• 시큐리티는 CsrfToken이 필요할 떄까지 지연 로딩함, Post와 같이 안전하지 않은 메서드 일떄 렌더링
+
+**SameSite**
+> sameSite 속성으로 크로스사이트 간 쿠키 제어를 핸들링함
+1. Stric: 동일 사이트 모든 요청 쿠키 포함, 크로스 사이트  HTTP 요청 쿠키 포함 안됨</br>
+2. Lax(기본설정) : 동일 사이트 요청 및 메소드가 읽기 전용이면 전송 그렇지 않으면 HTTP 요청에 쿠키가 포함되지 않는다. <a> 태그,window.location.replace,302리다이렉트 포함된다. Iframe,img,AJAX 통신은 쿠키가 전송되지 않는다.
+3. None: 모든 사이트에 쿠키 전송, HTTS에 의한 Secure 쿠키가 설정되야 함
