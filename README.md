@@ -443,7 +443,42 @@ SecurityContextPersistenceFilter 와 다른점이다
 3. 엔드포인트 & 권한 부여 : 위 에서 아래로 부터 나열된 순서대로 처리 예) /admin/** permitAll() 먼저 적용 되면 /admin/db .hasAuthority(admin) 이 적용 안됨<br>
 4. **❗️엔드 포인트 설정시 좁은 범위 경로를 먼저 정의 하고 보다 큰 범위의 경로를 다음 설정에 정의해야 한다**
 
-**표현식 권한 규칠 설정**
+**표현식 권한 규칙 설정**
 > 스프링 시큐리티는 표현식을 사용해서 권한 규칙을 설정하도록 WebExpressionAuthorizationManager 를 제공한다
 > 표현식은 시큐리티가 제공하는 권한 규칙을 사용하거나 사용자가 표현식을 커스텀하게 구현해서 설정 가능하다</br>
 > requestMatchers().access(new WebExpressionAuthorizationManager("expression"))
+
+**요청 기반 권한 부여 -seCurityMathcer()**
+>특정 패턴에 해당하는 요청에만 보안 규칙을 적용하도록 설정할 수 있으며 중복해서 정의할 경우 마지막에 설정한 것으로 대체</br>
+1. securityMatcher(String... urlPatterns): 특정 자원 보호가 필요한 경로를 정의한다
+2. securityMatcher(RequestMatcher... requestMatchers): 특정 자원 보호가 필요한 경로를 정의한다. AntPathRequestMatcher, MvcRequestMatcher 등의 구현체를 사용할 수 있다
+
+**메소드 기반 권한 요청**
+1. @EnableMethodSecurity
+>• Spring Security 는 요청 수준의 권한 부여뿐만 아니라 메서드 수준에서의 권한 부여를 지원한다
+>• 메서드 수준 권한 부여를 활성화 하기 위해서는 설정 클래스에 @EnableMethodSecurity 어노테이션을 추가해야 한다
+>• SpEL(Spring Expression Language) 표현식을 사용하여 다양한 보안 조건을 정의할 수 있다
+1. @PreAuthorize : 메소드가 실행 되기 전에 특정한 보안 조건 충족 확인, 호출 되기 전에 사용자 인증 정보,권한 검사 
+2. @PostAuthorize:  메소드 실행 된 후 보안 검사, 결과에 대한 보안조건을 검사하여 사용자가 결과를 받을 수 있도록 한다.
+3. @PreFilter : 메소드 실행전 컬렉션 타입의 파라미터에 대한 필터링 수행, 주로 사용자가 보내온 컬렉션을 특정 기준에 따라 필터링,만족해야 메소드가 처리
+4. @PostFilter : 메소드가 반환하는 컬렉션 타입의 결과를 필터링, 반환되는 객체가 특정 보안을 만족해야 결과를 반환 만족 못하면 결과에서 제거
+
+2. @Secured
+>• 메소드에 적용하면 지정된 권한(역할)을 가진 사용자만 해당 메소드를 호출할 수 있으며 더 풍부한 형식을 지원하는 @PreAuthorize 사용을 권장한다
+>• 사용하려면 스프링 시큐리티 설정에서 @EnableMethodSecurity(securedEnabled = true) 설정을 활성화해야 한다
+
+3 JSR-250
+>•  @RolesAllowed, @PermitAll 및 @DenyAll 어노테이션 보안 기능이 활성화 된다
+>•  스프링 시큐리티 설정에서 @EnableMethodSecurity(jsr250Enabled = true) 설정을 활성화해야 한다
+
+4. 메타 주석 사용
+>• 메서드 보안은 애플리케이션의 특정 사용을 위해 편리성과 가독성을 높일 수 있는 메타 주석을 지원한다.
+
+5.커스텀 빈을 사용하여 표현식 구현하기
+>• 사용자 정의 빈을 생성하고 새로운 표현식으로 사용할 메서드를 정의하고 권한 검사 로직을 구현한다
+
+6.클래스 레벨 권한 부여
+> • 모든 메소드는 클래스 수준의 권한 처리 동작을 상속한다</br>
+> • 메서드에 어노테이션을 선언한 메소드는 클래스 수준의 어노테이션을 덮어쓰게 된다</br>
+>• 인터페이스에도 동일한 규칙이 적용되지만 클래스가 두 개의 다른 인터페이스로부터 동일한 메서드의 어노테이션을 상속받는 경우에는 시작할 때 실패한다. 그래서 구체적인 메소드에
+어노테이션을 추가함으로써 모호성을 해결할 수 있다
