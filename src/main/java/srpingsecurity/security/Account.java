@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Account {
     private String owner;
-    private Boolean isSecure;
+    private String isSecure;
 
 }
