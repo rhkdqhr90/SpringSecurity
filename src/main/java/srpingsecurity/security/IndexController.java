@@ -17,12 +17,12 @@ public class IndexController {
     }
 
 
-    @GetMapping("/api/db")
+    @GetMapping("/user")
     public String api() {
         return "api";
     }
 
-    @GetMapping("/oauth/db")
+    @GetMapping("/db")
     public String oauth() {
         return "oauth";
     }
