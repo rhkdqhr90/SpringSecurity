@@ -2,10 +2,10 @@ package srpingsecurity.security;
 
 
 
-import org.springframework.context.ApplicationContext;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,23 +17,37 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
-
+import static org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl.fromHierarchy;
 
 
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 @Configuration
 public class SecurityConfig {
+//
+//    @Bean
+//    public WebSecurityCustomizer sebSecurityCustomizer(ApplicationContext context) {
+//        return (web) -> {
+//            web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//        };
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return  fromHierarchy("ROLE_ADMIN > ROLE_DB\n" +
+                "ROLE_DB > ROLE_USER\n" +
+                "ROLE_USER > ROLE_ANONYMOUS");
     }
 
 
