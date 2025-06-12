@@ -8,6 +8,7 @@
 - [예외 처리](#예외-처리)
 - [악용 보호](#악용-보호)
 - [인가 프로세스](#인가-프로세스)
+- [인가-아키텍처](#인가-아키텍처)
   
 
 
@@ -467,7 +468,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 >• 메소드에 적용하면 지정된 권한(역할)을 가진 사용자만 해당 메소드를 호출할 수 있으며 더 풍부한 형식을 지원하는 @PreAuthorize 사용을 권장한다</br>
 >• 사용하려면 스프링 시큐리티 설정에서 @EnableMethodSecurity(securedEnabled = true) 설정을 활성화해야 한다
 
-3 JSR-250
+3. JSR-250
 >•  @RolesAllowed, @PermitAll 및 @DenyAll 어노테이션 보안 기능이 활성화 된다</br>
 >•  스프링 시큐리티 설정에서 @EnableMethodSecurity(jsr250Enabled = true) 설정을 활성화해야 한다
 
@@ -486,3 +487,35 @@ SecurityContextPersistenceFilter 와 다른점이다
 **정적 자원 관리**
 >• 스프링 시큐리티에서 RequestMatcher 인스턴스를 등록하여 무시해야 할 요청을 지정할 수 있다
 >• 주로 정적 자원(이미지, CSS, JavaScript 파일 등)에 대한 요청이나 특정 엔드포인트가 보안 필터를 거치지 않도록 설정할 때 사용된다
+>• Ignoring 보다 permitAll(requestMatchers) 로 사용 권장 -> 지연로딩으로 성능 개선됨 (보안필터를 타는것이 더 안전)
+**계층적 권한 RoleHierachy(RoleHierachyImpl)**
+>• 기본적으로 스프링 시큐리티에서 권한과 역할은 계층적이거나 상하 관계로 구분하지 않는다. 그래서 인증 주체가 다양한 역할과 권한을 부여 받아야 한다
+>• RoleHirerachy 는 역할 간의 계층 구조를 정의하고 관리하는 데 사용되며 보다 간편하게 역할 간의 계층 구조를 설정하고 이를 기반으로 사용자에 대한 액세
+스 규칙을 정의할 수 있다
+1. setHireachy : 역활 계층을 설정, 각 역화레 대해 하위 계층에 속하는 모든 역활 집합 미리 설정 ROLE_A > ROLE_B > ROLE_C
+2. getReachableGrantedAuthrities : 모달 가능 권한 배열 반환,  직접 권한 ROLE_B 도달 가능 권한 ROLE_B ROLE_C
+---
+## 인가 아키텍처
+**Authoriztion**
+> 권한 부여는 특정 자원에 접근할 수 있는 권한을 결정(인증 이후 인가)
+> SpringSecurity는 GrantedAuthority클래스를 통해 권한 목록 관리 Authentication객체와 연결
+
+1.**GrantedAuthority**
+>• 스프링 시큐리티는 Authentication 에 GrantedAuthority 권한 목록을 저장하며 이를 통해 인증 주체에게 부여된 권한을 사용하도록 한다
+>• GrantedAuthority 객체는 AuthenticationManager 에 의해 Authentication 객체에 삽입되며 스프링 시큐리티는 인가 결정을 내릴 때 AuthorizatioinManager 를 사용하여
+Authentication 즉, 인증 주체로부터 GrantedAuthority 객체를 읽어들여 처리하게 된다
+** 사용자 정의 역활 접두사**
+> 접두사 규칙은 ROLE_
+> GrantedAuthorityDefaults로 접두사 지정 가능 (규칙)
+
+2.**인가 관리자 이해 -AuthorizationManager**
+> 권한 정보와 요청 자원의 보안 요구 사항을 기반으로 결정
+> 요청 기반 메소드 기반 인가 구성요소에서 호출 되며 최종 액세스 제어 결정 수행
+> SpringSecurity의 필수 구성 요서로 권한 뷰여 처리는 AUthorizationFilter를 통해 이루어 지며 AuthoriztionFilter가 호출 하여 권한 부여 결정 내림 
+1) 요청 기반 인가 관리자 - AuthorityAuthoriztionManager
+   • 스프링 시큐리티는 요청 기반의 인증된 사용자 및 특정권한을 가진 사용자의 자원접근 허용여부를 결정하는 인가 관리자 클래스들을 제공한다
+   • 대표적으로 AuthorityAuthorizationManager, AuthenticatedAuthorizationManager 와 대리자인 RequestMatcherDelegatingAuthorizationManager 가 있다
+3. **메서드 기반 인가 관리자 -PreAuthorizeAuthrizationManager
+>• 스프링 시큐리티는 메서드 기반의 인증된 사용자 및 특정권한을 가진 사용자의 자원접근 허용여부를 결정하는 인가 관리자 클래스들을 제공한다
+>• PreAuthorizeAuthorizationManager, PostAuthorizeAuthorizationManager, Jsr250AuthorizationManager, SecuredAuthorizationManager 가 있다
+>• 메서드 기반 권한 부여는 내부적으로 AOP 방식에 의해 초기화 설정이 이루어지며 메서드의 호출을 MethodInterceptor 가 가로 채어 처리하고 있다
