@@ -509,13 +509,19 @@ Authentication 즉, 인증 주체로부터 GrantedAuthority 객체를 읽어들�
 > GrantedAuthorityDefaults로 접두사 지정 가능 (규칙)
 
 2.**인가 관리자 이해 -AuthorizationManager**
-> 권한 정보와 요청 자원의 보안 요구 사항을 기반으로 결정
-> 요청 기반 메소드 기반 인가 구성요소에서 호출 되며 최종 액세스 제어 결정 수행
+> 권한 정보와 요청 자원의 보안 요구 사항을 기반으로 결정</br>
+> 요청 기반 메소드 기반 인가 구성요소에서 호출 되며 최종 액세스 제어 결정 수행</br>
 > SpringSecurity의 필수 구성 요서로 권한 뷰여 처리는 AUthorizationFilter를 통해 이루어 지며 AuthoriztionFilter가 호출 하여 권한 부여 결정 내림 
 1) 요청 기반 인가 관리자 - AuthorityAuthoriztionManager
    • 스프링 시큐리티는 요청 기반의 인증된 사용자 및 특정권한을 가진 사용자의 자원접근 허용여부를 결정하는 인가 관리자 클래스들을 제공한다
    • 대표적으로 AuthorityAuthorizationManager, AuthenticatedAuthorizationManager 와 대리자인 RequestMatcherDelegatingAuthorizationManager 가 있다
 3. **메서드 기반 인가 관리자 -PreAuthorizeAuthrizationManager
->• 스프링 시큐리티는 메서드 기반의 인증된 사용자 및 특정권한을 가진 사용자의 자원접근 허용여부를 결정하는 인가 관리자 클래스들을 제공한다
->• PreAuthorizeAuthorizationManager, PostAuthorizeAuthorizationManager, Jsr250AuthorizationManager, SecuredAuthorizationManager 가 있다
+>• 스프링 시큐리티는 메서드 기반의 인증된 사용자 및 특정권한을 가진 사용자의 자원접근 허용여부를 결정하는 인가 관리자 클래스들을 제공한다</br>
+>• PreAuthorizeAuthorizationManager, PostAuthorizeAuthorizationManager, Jsr250AuthorizationManager, SecuredAuthorizationManager 가 있다</br>
 >• 메서드 기반 권한 부여는 내부적으로 AOP 방식에 의해 초기화 설정이 이루어지며 메서드의 호출을 MethodInterceptor 가 가로 채어 처리하고 있다
+ 1) AuthorizationManagerBeforeMethodInterceptor:지정된 AuthorizationManager 를 사용하여 Authentication 이 보안 메서드를 호출 할 수 있는지 여부를 결정하는
+MethodInterceptor 구현체이다
+ 2) AuthorizationManagerAfterMethodIntercepto:지정된 AuthorizationManager 를 사용하여 Authentication 이 보안 메서드의 반환 결과에 접근 할 수 있는지 여부를 결정할 수 있
+는 구현체이다
+ 3) PreFilterAuthorizationMethodInterceptor:@PreFilter 어노테이션에서 표현식을 평가하여 메소드 인자를 필터링 하는 구현체이다
+ 4) PostFilterAuthorizationMethodInterceptor:@PostFilter 어노테이션에서 표현식을 평가하여 보안 메서드에서 반환된 객체를 필터링 하는 구현체이다
