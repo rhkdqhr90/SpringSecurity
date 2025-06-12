@@ -7,16 +7,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataSource {
 
-    @PreAuthorize("hasRole('USER')")
     public String getUser() {
-        System.out.println("📌 getOwner called with name =");
-        return "User";
+        return "user";
     }
-
-    @PostAuthorize("returnObject.name == authentication.name")
     public Account getOwner(String name) {
-        System.out.println("📌 getOwner called with name = " + name);
-        return new Account(name,false);
+        return new Account(name, false);
+    }
+    public String display() {
+        return "display";
     }
 
 }

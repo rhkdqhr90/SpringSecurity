@@ -1,14 +1,12 @@
 package srpingsecurity.security;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class Account {
-    public Account(String name, boolean isSecure) {
-        this.name = name;
-        this.isSecure = isSecure;
-    }
-
     private String name;
     private boolean isSecure;
 }
