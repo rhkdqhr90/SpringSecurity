@@ -4,7 +4,6 @@ package srpingsecurity.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,5 +24,10 @@ public class IndexController {
     @GetMapping("/db")
     public String oauth() {
         return "oauth";
+    }
+
+    @GetMapping("/secure")
+    public String secure() {
+        return "secure";
     }
 }

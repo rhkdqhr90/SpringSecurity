@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,22 +30,25 @@ public class SecurityConfig {
                         .requestMatchers("/user").hasRole("USER")
                         .requestMatchers("/db").access(new WebExpressionAuthorizationManager("hasRole('DB')"))
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/secure").access(new CustomAuthorizationManager())
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
-    @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("MYPREFIX_");
-    }
+//    @Bean
+//    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+//        return new GrantedAuthorityDefaults("MYPREFIX_");
+//    }
+
+
 
 
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user").password("{noop}1111").authorities("").build();
+        UserDetails user = User.withUsername("user").password("{noop}1111").authorities("USER").build();
         UserDetails manager = User.withUsername("db").password("{noop}1111").roles("DB").build();
         UserDetails admin = User.withUsername("admin").password("{noop}1111").roles("ADMIN","SECURE").build();
         return  new InMemoryUserDetailsManager(user,admin,manager);
