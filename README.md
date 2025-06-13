@@ -553,11 +553,11 @@ Integer.MAX_VALUE 로 순서가 설정되어 있는데 기본적으로 이들은
 >• Spring Security 는 사용자 정의 DSL 을 구현할 수 있도록 지원한다
 >• DSL 을 구성하면 필터, 핸들러, 메서드, 속성 등을 한 곳에 정의하여 처리할 수 있는 편리함을 제공한다
 1.**AbstractHttpConfigurer<AbstractHttpConfigurer, HttpSecurityBuilder>**
-• 사용자 DSL 을 구현하기 위해서 상속받는 추상 클래스로서 구현 클래스는 두 개의 메서드를 오버라이딩 한다
-• init(B builder) ­ HttpSecurity 의 구성요소를 설정 및 공유하는 작업 등..
-• configure(B builder) ­ 공통클래스를 구성 하거나 사용자 정의 필터를 생성하는 작업 등..
+• 사용자 DSL 을 구현하기 위해서 상속받는 추상 클래스로서 구현 클래스는 두 개의 메서드를 오버라이딩 한다</br>
+• init(B builder) ­ HttpSecurity 의 구성요소를 설정 및 공유하는 작업 등..</br>
+• configure(B builder) ­ 공통클래스를 구성 하거나 사용자 정의 필터를 생성하는 작업 등..</br>
 2. **API**
-• HttpSecurity.with(C configurer, Customizer<C> customizer)
-•  configurer 는 AbstractHttpConfigurer 을 상속하고 DSL 을 구현한 클래스가 들어간다
-•  customizer 는 DSL 구현 클래스에서 정의한 여러 API 를 커스트 마이징한다
+• HttpSecurity.with(C configurer, Customizer<C> customizer)</br>
+•  configurer 는 AbstractHttpConfigurer 을 상속하고 DSL 을 구현한 클래스가 들어간다</br>
+•  customizer 는 DSL 구현 클래스에서 정의한 여러 API 를 커스트 마이징한다</br>
 •  동일한 클래스를 여러 번 설정하더라도 한번 만 적용 된다
