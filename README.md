@@ -8,7 +8,9 @@
 - [예외 처리](#예외-처리)
 - [악용 보호](#악용-보호)
 - [인가 프로세스](#인가-프로세스)
-- [인가-아키텍처](#인가-아키텍처)
+- [인가 아키텍처](#인가-아키텍처)
+- [이벤 처리](#이벤트-처리)
+- [다중 보안](#다중-보안)
   
 
 
@@ -534,4 +536,16 @@ Integer.MAX_VALUE 로 순서가 설정되어 있는데 기본적으로 이들은
 • 메소드 인가 어드바이스가 실행되기 전에 트랜잭션을 열기 위해서는 @EnableTransactionManagement 의 순서를 설정해야 한다</br>
 • @EnableTransactionManagement(order = 0)</br>
 • 위의 order = 0 설정은 트랜잭션 관리가 @PreFilter 이전에 실행되도록 하며 @Transactional 어노테이션이 적용된 메소드가 스프링 시큐리티의 @PostAuthorize 와 같은 보안 어노테이션보다 먼저 실행되어 트랜잭션이 열린 상태에서 보안
-검사가 이루어지도
+검사가 이루어지도록 할 수 있다.
+
+---
+## 이벤트처리
+
+1 Authentication Events
+>• 스프링 시큐리티는 인증이 성공하거나 실패하게 되면 AuthenticationSuccessEvent 또는 AuthenticationFailureEvent 를 발생시킨다
+>• 이벤트를 수신하려면 ApplicationEventPublisher 를 사용하거나 시큐리티에서 제공하는 AuthenticationEventPublisher 를 사용해서 발행해야 한다
+>• AuthenticationEventPublisher 의 구현체로 DefaultAuthenticationEventPublisher 가 제공된다
+
+---
+## 다중 보안
+>• Spring Security 는 여러 SecurityFilterChain @Bean 을 등록해서 다중 보안 기능을 구성 할 수 있다 (@Order() 를 사용하여 어떤 securityFilterChain을 먼저 수행할지 지정 ,@Order을 지정하지 않으면 마지막으로 간주
