@@ -561,3 +561,19 @@ Integer.MAX_VALUE 로 순서가 설정되어 있는데 기본적으로 이들은
 •  configurer 는 AbstractHttpConfigurer 을 상속하고 DSL 을 구현한 클래스가 들어간다</br>
 •  customizer 는 DSL 구현 클래스에서 정의한 여러 API 를 커스트 마이징한다</br>
 •  동일한 클래스를 여러 번 설정하더라도 한번 만 적용 된다
+
+## 이중화
+>• 이중화는 시스템의 부하를 분산하고, 단일 실패 지점(Single Point of Failure, SPOF) 없이 서비스를 지속적으로 제공하는 아키텍처를 구현하는 것을
+목표로 하며 스프링 시큐리티는 이러한 이중화 환경에서 인증, 권한 부여, 세션 관리 등의 보안 기능을 제공한다
+>• 스프링 시큐리티는 사용자 세션을 안전하게 관리하며 이중화된 환경에서 세션 정보를 공유할 수 있는 메커니즘을 제공하며 대표적으로 레디스 같은 분산
+캐시를 사용하여 세션 정보를 여러 서버 간에 공유할 수 있다
+1. 레디스 세션 서버
+• 로컬 환경 (Linux 기준)</br>
+• 대부분의 Linux 에서 apt 또는 yum을 사용하여 레디스를 설치할 수 있다</br>
+• ex) sudo apt-get install redis-server, sudo yum install redis ..</br>
+• 설치 후 sudo service redis-server start 명령어로 레디스 서버를 시작한다</br>
+2. Docker를 사용한 설치
+• Docker 가 설치된 환경에서 다음 명령어로 레디스 컨테이너를 실행할 수 있다</br>
+• docker run --name redis -p 6379:6379 -d redis</br>
+• 이 명령어는 레디스 이미지를 다운로드하고, 이름이 redis인 컨테이너를 백그라운드에서 실행한다</br>
+• 포트 6379를 사용하여 로컬 호스트와 연결한다</br>
