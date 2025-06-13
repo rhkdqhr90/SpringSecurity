@@ -496,7 +496,7 @@ SecurityContextPersistenceFilter 와 다른점이다
 스 규칙을 정의할 수 있다
 1. setHireachy : 역활 계층을 설정, 각 역화레 대해 하위 계층에 속하는 모든 역활 집합 미리 설정 ROLE_A > ROLE_B > ROLE_C
 2. getReachableGrantedAuthrities : 모달 가능 권한 배열 반환,  직접 권한 ROLE_B 도달 가능 권한 ROLE_B ROLE_C
----
+
 ## 인가 아키텍처
 **Authoriztion**
 > 권한 부여는 특정 자원에 접근할 수 있는 권한을 결정(인증 이후 인가)
@@ -538,7 +538,7 @@ Integer.MAX_VALUE 로 순서가 설정되어 있는데 기본적으로 이들은
 • 위의 order = 0 설정은 트랜잭션 관리가 @PreFilter 이전에 실행되도록 하며 @Transactional 어노테이션이 적용된 메소드가 스프링 시큐리티의 @PostAuthorize 와 같은 보안 어노테이션보다 먼저 실행되어 트랜잭션이 열린 상태에서 보안
 검사가 이루어지도록 할 수 있다.
 
----
+
 ## 이벤트처리
 
 1 Authentication Events
@@ -546,6 +546,6 @@ Integer.MAX_VALUE 로 순서가 설정되어 있는데 기본적으로 이들은
 >• 이벤트를 수신하려면 ApplicationEventPublisher 를 사용하거나 시큐리티에서 제공하는 AuthenticationEventPublisher 를 사용해서 발행해야 한다
 >• AuthenticationEventPublisher 의 구현체로 DefaultAuthenticationEventPublisher 가 제공된다
 
----
+
 ## 다중 보안
 >• Spring Security 는 여러 SecurityFilterChain @Bean 을 등록해서 다중 보안 기능을 구성 할 수 있다 (@Order() 를 사용하여 어떤 securityFilterChain을 먼저 수행할지 지정 ,@Order을 지정하지 않으면 마지막으로 간주
