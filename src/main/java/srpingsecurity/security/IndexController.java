@@ -32,15 +32,15 @@ public class IndexController {
     }
 
 
-    @GetMapping("/currentUser")
-    public User currentUser(@CurrentUser User user) {
-        return user;
+    @GetMapping("/api")
+    public String currentUser() {
+        return "api";
     }
 
 
 
     @GetMapping("/currentUsername")
-    public String currentUser2(@CurrentUsername String user) {
+    public String currentUser2(String user) {
         return user;
     }
 
