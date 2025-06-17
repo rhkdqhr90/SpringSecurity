@@ -10,7 +10,7 @@
                     <a class="nav-link" href="/login">로그인</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <span class="user-span" th:text="${#authentication.principal.username}">username</span>
+                    <span class="nav-link" th:text="${#authentication.principal.username}">username</span>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/logout">로그아웃</a>
