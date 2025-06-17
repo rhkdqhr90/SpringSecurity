@@ -28,7 +28,8 @@ public class FormAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Bad Credentials");
         }
         String secretKey = ((FormAuthenticationDetails) authentication.getDetails()).getSecretKey();
-        if(secretKey == null || !secretKey.equals("secret")){
+        if(secretKey == null || !
+                secretKey.equals("secret")){
             throw new SecretException("Invalid Secret Key");
         }
         return new UsernamePasswordAuthenticationToken(accountContext.getAccountDto(), null, accountContext.getAuthorities());
