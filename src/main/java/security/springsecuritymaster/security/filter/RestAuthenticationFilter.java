@@ -25,14 +25,14 @@ import java.io.IOException;
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
-    public RestAuthenticationFilter(HttpSecurity http) {
+    public RestAuthenticationFilter() {
         super(  PathPatternRequestMatcher.withDefaults()
                 .matcher(HttpMethod.POST,"/api/login")
         );
-        setSecurityContextRepository(getSecurityContextRepository(http));
+
     }
 
-    private SecurityContextRepository getSecurityContextRepository(HttpSecurity http) {
+    public SecurityContextRepository getSecurityContextRepository(HttpSecurity http) {
         SecurityContextRepository securityContextRepository = http.getSharedObject(SecurityContextRepository.class);
         if(securityContextRepository ==null){
             securityContextRepository = new DelegatingSecurityContextRepository(new RequestAttributeSecurityContextRepository(), new HttpSessionSecurityContextRepository());

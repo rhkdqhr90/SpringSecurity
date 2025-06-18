@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import security.springsecuritymaster.security.details.FormWebAuthenticationDetailsSource;
+import security.springsecuritymaster.security.dsl.RestApiDsl;
 import security.springsecuritymaster.security.entrypoint.RestAuthenticationEntryPoint;
 import security.springsecuritymaster.security.filter.RestAuthenticationFilter;
 import security.springsecuritymaster.security.handler.*;
@@ -51,6 +52,8 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider)
                 .exceptionHandling(exception -> exception.accessDeniedHandler(new FormAccessDeniedHandler("/denied")));
 
+
+
         return http.build();
     }
 
@@ -69,23 +72,28 @@ public class SecurityConfig {
                         .requestMatchers("/api/manager").hasRole("MANAGER")
                         .requestMatchers("/api/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(restAuthenticationFilter(http,authenticationManager), UsernamePasswordAuthenticationFilter.class)
+              //  .csrf(AbstractHttpConfigurer::disable)
+              //  .addFilterBefore(restAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .authenticationManager(authenticationManager)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                        .accessDeniedHandler(new RestAccessDeniedHandler()));
+                        .accessDeniedHandler(new RestAccessDeniedHandler()))
+                 .with(new RestApiDsl<>(),restDsl ->restDsl
+                        .restSuccessHandler(restSuccessHandler)
+                        .restFailureHandler(restFailureHandler)
+                        .loginPage("/api/login")
+                        .loginProcessingUrl("/api/login"));
 
         return http.build();
     }
-
-    private RestAuthenticationFilter restAuthenticationFilter(HttpSecurity http,AuthenticationManager authenticationManager) {
-        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter(http);
-        restAuthenticationFilter.setAuthenticationManager(authenticationManager);
-        restAuthenticationFilter.setAuthenticationSuccessHandler(restSuccessHandler);
-        restAuthenticationFilter.setAuthenticationFailureHandler(restFailureHandler);
-        return restAuthenticationFilter;
-    }
+//
+//    private RestAuthenticationFilter restAuthenticationFilter(AuthenticationManager authenticationManager) {
+//        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter();
+//        restAuthenticationFilter.setAuthenticationManager(authenticationManager);
+//        restAuthenticationFilter.setAuthenticationSuccessHandler(restSuccessHandler);
+//        restAuthenticationFilter.setAuthenticationFailureHandler(restFailureHandler);
+//        return restAuthenticationFilter;
+//    }
 
 
 }
